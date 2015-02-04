@@ -1,0 +1,29 @@
+{
+  "name": "refract",
+  "version": "0.0.1",
+  "homepage": "http://ameyms.com/refract",
+  "authors": [
+    "Amey Sakhadeo <me@ameyms.com>"
+  ],
+  "description": "A set of d3 based visualization components built for React",
+  "moduleType": [
+    "amd"
+  ],
+  "keywords": [
+    "d3",
+    "react",
+    "reactjs",
+    "facebook",
+    "visualization",
+    "graphs",
+    "charts"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

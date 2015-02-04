@@ -1,0 +1,30 @@
+{
+  "name": "refract",
+  "version": "0.0.1",
+  "description": "A set of d3 based visualization components built for React",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ameyms/refract.git"
+  },
+  "keywords": [
+    "d3",
+    "react",
+    "visualization",
+    "graphs",
+    "charts",
+    "reactjs"
+  ],
+  "author": "Amey Sakhadeo <me@ameyms.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ameyms/refract/issues"
+  },
+  "homepage": "https://github.com/ameyms/refract"
+}
