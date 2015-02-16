@@ -18,4 +18,8 @@
     "trailing": true,
     "smarttabs": true,
     "jquery": true
+
+    "globals": {
+        "module": true
+    }
 }
