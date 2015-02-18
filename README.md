@@ -37,8 +37,11 @@ var DeathStar = React.createClass({
   }
 
 });
-```
+
 module.exports = DeathStar;
+
+
+```
 
 
 ----
