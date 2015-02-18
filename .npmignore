@@ -1,0 +1,8 @@
+build
+docs
+example
+src
+
+.*
+# jsx Transform Disk Cache
+.module-cache

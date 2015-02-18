@@ -1,0 +1,6 @@
+# Demo JS files
+demo.js
+demo.compiled.js
+
+node_modules
+build

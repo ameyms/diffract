@@ -1,7 +1,7 @@
 node_modules
 npm-debug.log
 build
-
+diffract-*.tgz
 # jsx Transform Disk Cache
 .module-cache
 
