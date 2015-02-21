@@ -151,6 +151,6 @@ module.exports = React.createClass({
         return (
             <svg className="donut"></svg>
         );
-    },
+    }
 
 });
