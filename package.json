@@ -3,15 +3,8 @@
   "author": "Amey Sakhadeo",
   "version": "0.0.2",
   "description": "A set of d3 based visualization components built for React",
-  "main": "./lib/index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prebuild": "rm -rf lib",
-    "build:js": "jsx --harmony ./src ./lib",
-    "build:jsx": "jsx --harmony -x jsx ./src ./lib",
-    "build": "npm run build:js && npm run build:jsx",
-    "prepublish": "npm run build"
-  },
+  "main": "./build/index.js",
+  "scripts": {},
   "keywords": [
     "react",
     "react-component",
@@ -31,13 +24,22 @@
     "react-classset": "0.0.2"
   },
   "peerDependencies": {
-    "react": "0.12.x",
-    "d3": "^3.5.5"
+    "react": "0.12.x"
   },
   "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-connect": "^0.9.0",
+    "grunt-contrib-copy": "^0.8.0",
+    "grunt-contrib-jshint": "^0.11.1",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-jscs": "^1.6.0",
+    "grunt-react": "^0.12.0",
+    "grunt-shell": "^1.1.2",
+    "jshint-stylish": "^1.0.1",
+    "load-grunt-tasks": "^3.1.0",
     "react-tools": "^0.12.2",
-    "browserify": "^7.0.3",
     "reactify": "^0.17.1",
-    "react-router": "^0.11.6"
+    "time-grunt": "^1.1.0"
   }
 }
