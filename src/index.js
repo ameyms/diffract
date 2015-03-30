@@ -1,5 +1,6 @@
 module.exports = {
+    Donut: require('./donut'),
+    MultiColumnGraph: require('./multi_column_graph'),
+    BarGraph: require('./bar_graph')
 
-    Donut: require( './js/donut.js' ),
-    MultiColumnGraph: require( './js/multi_column_graph.js' )
 };

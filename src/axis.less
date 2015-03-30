@@ -1,0 +1,35 @@
+svg.bar-graph,
+svg.mutli-column-graph
+{
+    .axis
+    {
+        fill: $color_gray;
+        text
+        {
+            font-size: 0.85em;
+        }
+
+        path,
+        line
+        {
+          fill: none;
+          stroke: $color_gray;
+          shape-rendering: crispEdges;
+        }
+
+        g.tick
+        {
+            line
+            {
+                stroke: $color_gray_lighter;
+            }
+        }
+    }
+
+    .shadow-bar
+    {
+        fill: #FFF;
+
+
+    }
+}
