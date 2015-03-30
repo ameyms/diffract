@@ -14,12 +14,14 @@
     "quotmark": "single",
     "undef": true,
     "unused": true,
-    "strict": true,
+    "strict": false,
     "trailing": true,
     "smarttabs": true,
-    "jquery": true
+    "jquery": true,
 
     "globals": {
-        "module": true
+        "console": true,
+        "module": true,
+        "require": true
     }
 }
