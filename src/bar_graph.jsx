@@ -1,7 +1,9 @@
 var React = require('react/addons'),
+    Axis = require('./axis'),
+    Constants = require('./constants'),
     ReactTransitionGroup = React.addons.TransitionGroup,
-    _transitionDuration = 800,
-    _inset = 30,
+    _transitionDuration = Constants.TRANSITION_DURATION,
+    _inset = Axis.MARGIN,
     BarGraph, Bar;
 
 Bar = React.createClass({
@@ -98,12 +100,19 @@ BarGraph = React.createClass({
         values: React.PropTypes.arrayOf(React.PropTypes.number),
         labels: React.PropTypes.arrayOf(React.PropTypes.string),
         barColor: React.PropTypes.func,
+        leftMargin: React.PropTypes.number,
         width: React.PropTypes.number,
         height: React.PropTypes.number
     },
 
     getInitialState: function() {
         return {};
+    },
+
+    getDefaultProps: function() {
+        return {
+            leftMargin: 0
+        };
     },
 
     render: function() {
@@ -114,10 +123,10 @@ BarGraph = React.createClass({
             h, y, i, xScale, yScale;
 
 
-        insetString = 'translate(' + _inset + ','+ _inset + ')';
+        insetString = 'translate(' + (_inset + this.props.leftMargin) + ',' + (-_inset) + ' )';
         xScale = d3.scale.ordinal().
-                domain( this.props.labels ).
-                rangeRoundBands([0, this.props.width - _inset], 0.2);
+                domain(this.props.labels).
+                rangeRoundBands([0, this.props.width - this.props.leftMargin - _inset], 0.2);
 
 
         yScale = d3.scale.linear().
@@ -137,11 +146,15 @@ BarGraph = React.createClass({
 
         return (
             <svg width={this.props.width} height={this.props.height} className="bar-graph">
-                <g className="wrap" transform={insetString}>
-                    <ReactTransitionGroup component="g" className="bars-container">
+                <g className="wrap">
+                    <ReactTransitionGroup component="g"
+                        transform={insetString} className="bars-container">
                         {bars}
                     </ReactTransitionGroup>
                     <g className="axes-container">
+                        <Axis behavior={"X"} scale={xScale}
+                            displacement={this.props.height} leftMargin={this.props.leftMargin}/>
+                        <Axis behavior={"Y"} scale={yScale} leftMargin={this.props.leftMargin}/>
                     </g>
                 </g>
             </svg>
