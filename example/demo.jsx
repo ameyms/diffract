@@ -5,6 +5,7 @@ var React = require( 'react' ),
     BarGraph = require( 'diffract' ).BarGraph,
     colors = [ '#E91E63', '#2196F3', '#FF9800', '#4CAF50', '#673AB7' ],
     width = 320, height = 240,
+    cnt = 1,
     App;
 
 App = React.createClass({
@@ -14,6 +15,8 @@ App = React.createClass({
             values: [ Math.random() * 10000, Math.random() * 10000,
                 Math.random() * 10000, Math.random() * 10000,
                 Math.random() * 10000 ],
+
+            labels: ['Elves', 'Dwarves', 'Hobbits', 'Men', 'Wizards']
         };
     },
     getColors: function ( d, i ) {
@@ -68,20 +71,31 @@ App = React.createClass({
     },
 
     updateData: function() {
-        this.setState({values: [ Math.random() * 10000, Math.random() * 10000,
-            Math.random() * 10000, Math.random() * 10000,
-            Math.random() * 10000 ]});
+        if (cnt++ % 3) {
+            this.setState({values: [ Math.random() * 10000, Math.random() * 10000,
+                Math.random() * 10000, Math.random() * 10000,
+                Math.random() * 10000 ],
+
+                labels: ['Elves', 'Dwarves', 'Hobbits', 'Men', 'Wizards']});
+        } else {
+            this.setState({values: [ Math.random() * 10000, Math.random() * 10000,
+                Math.random() * 10000, Math.random() * 10000 ],
+
+                labels: ['Elves', 'Dwarves', 'Hobbits', 'Men']});
+        }
     },
 
     componentDidMount: function() {
-        setInterval(this.updateData.bind(this), 2000);
+        this._updater = setInterval(this.updateData.bind(this), 2000);
+    },
+
+    componentDidUnmount: function() {
+        clearInterval(this._updater);
     },
 
     getBarGraph: function() {
 
-        var labels = ['Elves', 'Dwarves', 'Hobbits', 'Men', 'Wizards'],
-
-            xFormat = function ( n ) {
+        var xFormat = function ( n ) {
                 return n;
             },
 
@@ -91,7 +105,7 @@ App = React.createClass({
 
         return (
             <BarGraph values={this.state.values} barColor={this.getColors}
-                labels={labels}
+                labels={this.state.labels} leftMargin={40}
                 width={width} height={height}>
             </BarGraph>
         );
@@ -100,10 +114,11 @@ App = React.createClass({
 
     render: function () {
         var donut = this.getDonut(),
-            barGraph = this.getBarGraph();
+            barGraph = this.getBarGraph(),
+            padding = {padding: '50px'};
 
         return (
-            <div>
+            <div style={padding}>
                 <div width="640" height="480">
                     <h2>Donut</h2>
                     {donut}
