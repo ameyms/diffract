@@ -24,7 +24,7 @@ Bar = React.createClass({
 
     componentDidMount: function() {
         var self = this,
-            el = this.getDOMNode();
+            el = React.findDOMNode(this);
 
         console.log('Rect has mounted...' + self.props.height);
         d3.select(el).
@@ -41,7 +41,7 @@ Bar = React.createClass({
 
     componentWillEnter: function(callback) {
         var self = this,
-            el = this.getDOMNode();
+            el = React.findDOMNode(this);
 
         console.log('Rect is entering...' + self.props.height);
         d3.select(el).
@@ -59,7 +59,7 @@ Bar = React.createClass({
 
     componentWillLeave: function(callback) {
         var self = this,
-            el = this.getDOMNode();
+            el = React.findDOMNode(this);
 
         console.log('Rect is exiting...');
         d3.select(el).
@@ -73,7 +73,7 @@ Bar = React.createClass({
 
     componentDidUpdate: function() {
         var self = this,
-            el = this.getDOMNode();
+            el = React.findDOMNode(this);
 
         d3.select(el).
             transition().

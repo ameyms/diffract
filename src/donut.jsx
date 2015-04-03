@@ -46,7 +46,7 @@ Slice = React.createClass({
     },
 
     componentDidUpdate: function (prevProps) {
-        var pathEl = this.getDOMNode(),
+        var pathEl = React.findDOMNode(this),
             self = this,
             d = self.props.arcDescriptor;
 
@@ -68,7 +68,7 @@ Slice = React.createClass({
     },
 
     componentDidMount: function() {
-        var pathEl = this.getDOMNode(),
+        var pathEl = React.findDOMNode(this),
             self = this,
             d = self.props.arcDescriptor;
 
@@ -90,7 +90,7 @@ Slice = React.createClass({
     },
 
     componentWillEnter: function ( callback ) {
-        var pathEl = this.getDOMNode(),
+        var pathEl = React.findDOMNode(this),
             self = this,
             d = self.props.arcDescriptor;
 
@@ -115,7 +115,7 @@ Slice = React.createClass({
     },
 
     componentWillLeave: function ( callback ) {
-        var pathEl = this.getDOMNode(),
+        var pathEl = React.findDOMNode(this),
             self = this,
             d = self.props.arcDescriptor,
             sAngle = d.startAngle;
