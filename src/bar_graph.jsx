@@ -22,7 +22,7 @@ Bar = React.createClass({
         };
     },
 
-    componentDidMount: function() {
+    componentWillAppear: function(callback) {
         var self = this,
             el = React.findDOMNode(this);
 
@@ -35,7 +35,8 @@ Bar = React.createClass({
             transition().
             duration(_transitionDuration).
             attr('y', function() { return self.props.y; }).
-            attr('height', function() { return self.props.height; });
+            attr('height', function() { return self.props.height; }).
+            each('end', callback);
     },
 
 
