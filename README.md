@@ -1,7 +1,7 @@
-diffract
-==
+# diffract
 
-A set of d3 based visualization components built for React
+
+A set of d3 based visualization components with **cool animations** built for React
 
 Installation
 ---
@@ -12,8 +12,8 @@ npm install diffract
 
 ```
 
-Usage
----
+## Usage
+
 After installing diffract via NPM, you may use the components in your code as follows:
 
 ```js
@@ -42,6 +42,15 @@ module.exports = DeathStar;
 
 
 ```
+
+## Demo
+### Donut
+![Donut](https://raw.github.com/ameyms/diffract/master/etc/donut.gif)
+
+### Bar Graph
+![Bar Graph](https://raw.github.com/ameyms/diffract/master/etc/bar_graph_1.gif)
+
+
 
 
 ----
