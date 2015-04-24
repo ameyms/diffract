@@ -67,7 +67,7 @@ Slice = React.createClass({
             attrTween( 'd', self.props.tween );
     },
 
-    componentDidMount: function() {
+    componentWillAppear: function() {
         var pathEl = React.findDOMNode(this),
             self = this,
             d = self.props.arcDescriptor;
@@ -185,7 +185,6 @@ Donut = React.createClass({
 
         for ( i = 0; i < len; i++ ) {
             a = arcDescriptors[ i ];
-            console.log( a );
             slices.push( <Slice className="slice" arcDescriptor={a}
                 key={i} index={i} color={this.props.segmentColor} tween={arcTween}>
             </Slice> );
