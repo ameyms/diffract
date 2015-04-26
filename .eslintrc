@@ -58,11 +58,7 @@
   ],
   "globals": {
     "d3": true,
-    "require": "true",
-    "module": "true",
-    "$": "true",
-    "d3": "true",
-    "__DEV_SERVER__": "true",
-    "__MOCK_MANIFEST__": "true"
+    "require": true,
+    "module": true
   }
 }
