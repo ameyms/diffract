@@ -4,12 +4,18 @@ This is an example project that uses [Diffract](http://github.com/ameyms/diffrac
 
 ## Installation
 After cloning the repository, install dependencies:
-```
-cd <project folder>/diffract/example
-npm install
+
+```shell
+npm install # Install diffract`s dependencies
+cd example  # CD to example project
+npm install # Install example project`s dependencies
 ```
 
+## Run demos
 Now you can run your local server:
+
+```shell
+grunt demo
 ```
-npm start
-```
+
+You can now point your browser to http://localhost:9001 to view the demos
