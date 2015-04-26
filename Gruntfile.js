@@ -13,15 +13,6 @@ module.exports = function (grunt) {
         },
 
         copy: {
-            less: {
-                files: [{
-                    expand: true,
-                    src: ['**/*.less', '*.less'],
-                    dest: 'build',
-                    cwd: 'src'
-                }]
-            },
-
             js: {
                 files: [{
                     expand: true,
@@ -29,14 +20,30 @@ module.exports = function (grunt) {
                     dest: 'build',
                     cwd: 'src'
                 }]
-            },
+            }
         },
         jscs: {
             src: ['src/*.js']
         },
 
-        jshint: {
-            all: ['Gruntfile.js', 'build/*.js']
+        eslint: {
+            source: {
+                src: ['src/{,*/}*.{js,jsx}', '!src/{,*/}__tests__/*.js']
+            },
+            demo: {
+                src: ['example/demo.jsx']
+            },
+            tests: {
+                src: ['src/{,*/}__tests__/*.{js,jsx}'],
+                options: {
+                    globals: ['jest', 'd3'],
+                    envs: ['jasmine', 'amd', 'node', 'browser']
+                }
+            },
+
+            scripts: {
+                src: ['Gruntfile.js']
+            }
         },
 
         react: {
@@ -56,7 +63,7 @@ module.exports = function (grunt) {
                 command: [
                     'rm -rf node_modules/diffract',
                     'npm install ../diffract-<%= pkg.version %>.tgz ',
-                    'make',
+                    'make'
                 ].join('&&'),
 
                 options: {
@@ -90,7 +97,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('lint', [
         'jscs',
-        'jshint:all'
+        'eslint'
     ]);
 
     grunt.registerTask('package', [
