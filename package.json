@@ -5,10 +5,9 @@
   "description": "A set of d3 based visualization components built for React",
   "main": "build/index.js",
   "files": [
-      "build",
-      "package.json"
+    "build",
+    "package.json"
   ],
-
   "scripts": {},
   "keywords": [
     "react",
@@ -25,11 +24,11 @@
   "bugs": {
     "url": "https://github.com/ameyms/diffract/issues"
   },
-  "dependencies": {
-    "react-classset": "0.0.2"
-  },
+  "dependencies": {},
   "peerDependencies": {
-    "react": "^0.13.0"
+    "react": "^0.13.1",
+    "d3": "^3.3.0",
+    "diffract": "^0.1.0"
   },
   "devDependencies": {
     "eslint": "^0.20.0",
@@ -47,7 +46,6 @@
     "grunt-shell": "^1.1.2",
     "jshint-stylish": "^1.0.1",
     "load-grunt-tasks": "^3.1.0",
-    "react": "^0.13.1",
     "react-tools": "^0.12.2",
     "reactify": "^0.17.1",
     "time-grunt": "^1.1.0"
