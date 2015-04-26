@@ -1,4 +1,5 @@
 var React = require('react'),
+    Styles = require('./styles').Axis,
     Constants = require('./constants'),
     ReactTransitionGroup = React.addons.TransitionGroup,
     _transitionDuration = Constants.TRANSITION_DURATION,
@@ -48,6 +49,9 @@ Axis = React.createClass({
         }
 
         axisEl.transition().duration(_transitionDuration).call(axisFn);
+        axisEl.selectAll('text').style(Styles.text);
+        axisEl.selectAll('path').style(Styles.paths);
+        axisEl.selectAll('line').style(Styles.lines);
     },
 
     componentDidMount: function() {

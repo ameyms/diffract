@@ -1,7 +1,8 @@
 
 var React = require( 'react' ),
     Donut = require( 'diffract' ).Donut,
-    MultiColumnGraph = require( 'diffract' ).MultiColumnGraph,
+    SampleSet = require( 'diffract' ).SampleSet,
+    MultiSeriesColumnGraph = require( 'diffract' ).MultiSeriesColumnGraph,
     BarGraph = require( 'diffract' ).BarGraph,
     colors = [ '#E91E63', '#2196F3', '#FF9800', '#4CAF50', '#673AB7' ],
     width = 320, height = 240,
@@ -64,10 +65,13 @@ App = React.createClass({
 
 
         return (
-            <MultiColumnGraph data={columnData} colorGenerator={this.getColors}
-                xAxisTickFormatter={xFormat} yAxisTickFormatter={yFormat}>
-            </MultiColumnGraph>
+            <MultiSeriesColumnGraph>
+                <SampleSet samples={[1,2,3]} color={"red"} label={"Dwarves"} />
+                <SampleSet samples={[1,2,3]} color={"blue"} label={"Dwarves"} />
+                <SampleSet samples={[1,2,3]} color={"green"} label={"Dwarves"} />
+            </MultiSeriesColumnGraph>
         );
+
     },
 
     updateData: function() {
@@ -115,8 +119,10 @@ App = React.createClass({
     render: function () {
         var donut = this.getDonut(),
             barGraph = this.getBarGraph(),
+            multiSeries = this.getMultiColumnGraph(),
             padding = {padding: '50px'};
 
+        console.log('barGraph instanceOf BarGraph', barGraph instanceof BarGraph);
         return (
             <div style={padding}>
                 <div width="640" height="480">
@@ -126,6 +132,11 @@ App = React.createClass({
                 <div>
                     <h2>Bar Graph</h2>
                     {barGraph}
+                </div>
+
+                <div>
+                    <h2>Mutiseries Column Graph</h2>
+                    {multiSeries}
                 </div>
             </div>
         );
