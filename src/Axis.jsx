@@ -1,11 +1,12 @@
 var React = require('react'),
     Styles = require('./styles').Axis,
     Constants = require('./constants'),
-    ReactTransitionGroup = React.addons.TransitionGroup,
     _transitionDuration = Constants.TRANSITION_DURATION,
     Axis;
 
 Axis = React.createClass({
+
+    displayName: 'Axis',
 
     statics: {
         MARGIN: 30
@@ -15,7 +16,8 @@ Axis = React.createClass({
         behavior: React.PropTypes.oneOf(['X', 'Y']),
         scale: React.PropTypes.func,
         displacement: React.PropTypes.number,
-        offset: React.PropTypes.number
+        offset: React.PropTypes.number,
+        leftMargin: React.PropTypes.number
     },
 
     getDefaultProps: function() {

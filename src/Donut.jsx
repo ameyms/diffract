@@ -1,14 +1,18 @@
-var React = require( 'react/addons' ),
+var React = require('react/addons'),
     ReactTransitionGroup = React.addons.TransitionGroup,
-    d3 = require( 'd3' ),
+    d3 = require('d3'),
     arcGeneratorFn, pieGeneratorFn,
     Donut, Slice;
 
 
-pieGeneratorFn =  d3.layout.pie().sort( null ).value( function ( d ) { return d; } );
+pieGeneratorFn = d3.layout.pie().
+                    sort(null).
+                    value(function(d) {
+                        return d;
+                    });
 
 arcGeneratorFn = function ( innerR, outerR ) {
-    var arc, arcTween;
+    var arc;
 
     arc = d3.svg.arc().
         outerRadius( outerR ).
@@ -26,6 +30,8 @@ arcGeneratorFn = function ( innerR, outerR ) {
 
 
 Slice = React.createClass({
+
+    displayName: 'Slice',
 
     propTypes: {
         arcDescriptor: React.PropTypes.shape({
@@ -148,6 +154,8 @@ Slice = React.createClass({
 
 Donut = React.createClass({
 
+    displayName: 'Donut',
+
     propTypes: {
         values: React.PropTypes.arrayOf(React.PropTypes.number),
         title: React.PropTypes.string,
@@ -172,6 +180,8 @@ Donut = React.createClass({
             height = this.props.height,
             width = this.props.width,
             radius = Math.min(width, height) / 2,
+            titleSize = radius / 4,
+            subtitleSize = radius / 8,
             i, arcDescriptors, a, arcTween,
             cx, cy, centerTransform;
 
@@ -185,9 +195,11 @@ Donut = React.createClass({
 
         for ( i = 0; i < len; i++ ) {
             a = arcDescriptors[ i ];
-            slices.push( <Slice className="slice" arcDescriptor={a}
-                key={i} index={i} color={this.props.segmentColor} tween={arcTween}>
-            </Slice> );
+            slices.push(
+                <Slice className="slice" arcDescriptor={a}
+                    key={i} index={i}
+                    color={this.props.segmentColor} tween={arcTween} />
+            );
         }
 
         return (
@@ -198,11 +210,11 @@ Donut = React.createClass({
                     </ReactTransitionGroup>
                     <g className="labels">
                         <text className="donut-title" textAnchor="middle"
-                            x={0} y={0} fontSize={radius/4}>
+                            x={0} y={0} fontSize={titleSize}>
                             {this.props.title}
                         </text>
                         <text className="donut-subtitle" textAnchor="middle"
-                             x={0} y={radius/4} fontSize={radius/8}>
+                             x={0} y={titleSize} fontSize={subtitleSize}>
                             {this.props.subtitle}
                         </text>
                     </g>

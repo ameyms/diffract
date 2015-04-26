@@ -8,6 +8,8 @@ var React = require('react/addons'),
 
 Bar = React.createClass({
 
+    displayName: 'Bar',
+
     propTypes: {
         color: React.PropTypes.string,
         height: React.PropTypes.number,
@@ -17,9 +19,7 @@ Bar = React.createClass({
     },
 
     getInitialState: function() {
-        return {
-            lastUpdate: 0,
-        };
+        return {};
     },
 
     componentWillAppear: function(callback) {
@@ -72,7 +72,7 @@ Bar = React.createClass({
 
     },
 
-    componentDidUpdate: function() {
+    componentWillUpdate: function() {
         var self = this,
             el = React.findDOMNode(this);
 
@@ -96,6 +96,8 @@ Bar = React.createClass({
 });
 
 BarGraph = React.createClass({
+
+    displayName: 'BarGraph',
 
     propTypes: {
         values: React.PropTypes.arrayOf(React.PropTypes.number),
@@ -140,8 +142,8 @@ BarGraph = React.createClass({
             y = yScale(this.props.values[i]);
             bars.push(
                 <Bar height={h} color={this.props.barColor(i)}
-                    width={xScale.rangeBand()} key={i} y={y} x={xScale(this.props.labels[i])}>
-                </Bar>
+                    width={xScale.rangeBand()} key={i}
+                    y={y} x={xScale(this.props.labels[i])} />
             );
         }
 

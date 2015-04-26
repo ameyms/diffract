@@ -1,8 +1,6 @@
 
 var React = require( 'react' ),
     Donut = require( 'diffract' ).Donut,
-    SampleSet = require( 'diffract' ).SampleSet,
-    MultiSeriesColumnGraph = require( 'diffract' ).MultiSeriesColumnGraph,
     BarGraph = require( 'diffract' ).BarGraph,
     colors = [ '#E91E63', '#2196F3', '#FF9800', '#4CAF50', '#673AB7' ],
     width = 320, height = 240,
@@ -10,6 +8,8 @@ var React = require( 'react' ),
     App;
 
 App = React.createClass({
+
+    displayName: 'App',
 
     getInitialState: function() {
         return {
@@ -21,7 +21,7 @@ App = React.createClass({
         };
     },
     getColors: function ( d, i ) {
-        if ( arguments.length == 2 ) {
+        if ( arguments.length === 2 ) {
             return colors[ i ];
         } else {
             return colors[ d ];
@@ -33,44 +33,12 @@ App = React.createClass({
 
         return (
             <Donut values={this.state.values} title="Hello" subtitle="using react"
-                segmentColor={this.getColors} width={width} height={height}>
-            </Donut>
+                segmentColor={this.getColors} width={width} height={height} />
         );
     },
 
     getMultiColumnGraph: function () {
-        var columnData = [ [ Math.random() * 10000, Math.random() * 10000,
-            Math.random() * 10000, Math.random() * 10000,
-            Math.random() * 10000 ],
-            [ Math.random() * 10000, Math.random() * 10000,
-            Math.random() * 10000, Math.random() * 10000,
-            Math.random() * 10000 ],
-            [ Math.random() * 10000, Math.random() * 10000,
-            Math.random() * 10000, Math.random() * 10000,
-            Math.random() * 10000 ],
-            [ Math.random() * 10000, Math.random() * 10000,
-            Math.random() * 10000, Math.random() * 10000,
-            Math.random() * 10000 ],
-            [ Math.random() * 10000, Math.random() * 10000,
-            Math.random() * 10000, Math.random() * 10000,
-            Math.random() * 10000 ] ],
-
-            xFormat = function ( n ) {
-                return n;
-            },
-
-            yFormat = function ( n ) {
-                return n;
-            };
-
-
-        return (
-            <MultiSeriesColumnGraph>
-                <SampleSet samples={[1,2,3]} color={"red"} label={"Dwarves"} />
-                <SampleSet samples={[1,2,3]} color={"blue"} label={"Dwarves"} />
-                <SampleSet samples={[1,2,3]} color={"green"} label={"Dwarves"} />
-            </MultiSeriesColumnGraph>
-        );
+        return null;
 
     },
 
@@ -99,19 +67,10 @@ App = React.createClass({
 
     getBarGraph: function() {
 
-        var xFormat = function ( n ) {
-                return n;
-            },
-
-            yFormat = function ( n ) {
-                return n;
-            };
-
         return (
             <BarGraph values={this.state.values} barColor={this.getColors}
                 labels={this.state.labels} leftMargin={40}
-                width={width} height={height}>
-            </BarGraph>
+                width={width} height={height} />
         );
     },
 
@@ -122,7 +81,6 @@ App = React.createClass({
             multiSeries = this.getMultiColumnGraph(),
             padding = {padding: '50px'};
 
-        console.log('barGraph instanceOf BarGraph', barGraph instanceof BarGraph);
         return (
             <div style={padding}>
                 <div width="640" height="480">
