@@ -58,7 +58,7 @@ App = React.createClass({
     },
 
     componentDidMount: function() {
-        this._updater = setInterval(this.updateData.bind(this), 2000);
+        this._updater = setInterval(this.updateData, 2000);
     },
 
     componentDidUnmount: function() {
