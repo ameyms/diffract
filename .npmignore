@@ -1,7 +1,11 @@
 docs
 example
 src
-
+node_modules
+etc
+lib
+*.tgz
+.*
 .*
 # jsx Transform Disk Cache
 .module-cache
