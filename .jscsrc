@@ -1,4 +1,7 @@
 {
     "preset": "airbnb",
-    "validateIndentation": 4
+    "esprima": "esprima-fb",
+    "validateIndentation": 4,
+
+    "excludeFiles": ["build/*.js"]
 }
