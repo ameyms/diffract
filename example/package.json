@@ -2,10 +2,10 @@
   "name": "diffract-example",
   "version": "0.0.1",
   "description": "Showcase of diffract d3 widgets",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "dependencies": {
+    "react": "^0.13.1",
+    "d3": "^3.3.0"
   },
-  "author": "",
+  "author": "Amey Sakhadeo",
   "license": "ISC"
 }
