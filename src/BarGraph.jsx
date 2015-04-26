@@ -72,7 +72,7 @@ Bar = React.createClass({
 
     },
 
-    componentWillUpdate: function() {
+    componentDidUpdate: function() {
         var self = this,
             el = React.findDOMNode(this);
 
