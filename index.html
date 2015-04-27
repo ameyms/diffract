@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>diffract | A set of D3 based React components with emphasis on animations</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link href='http://fonts.googleapis.com/css?family=Muli:300,400|Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/bootstrap.min.css" charset="utf-8">
+    <link rel="stylesheet" href="css/font-awesome.min.css" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="css/theme.css" charset="utf-8">
+    <link rel="stylesheet" href="css/prism.css" charset="utf-8">
+    <script src="https://fb.me/JSXTransformer-0.13.2.js"></script>
+
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">
+            diffract
+          </a>
+        </div>
+      </div>
+    </nav>
+    <div class="jumbotron">
+        <h1>diffract</h1>
+        <p class="subtitle">
+          A set of D3 based React components with emphasis on animations
+        </p>
+        <a class="btn btn-lg btn-primary" href="https://github.com/ameyms/diffract">
+          <span class="fa fa-github"></span>
+          Github
+        </a>
+        <a class="btn btn-lg btn-primary"
+          href="https://github.com/ameyms/diffract/releases/download/v0.1.0/diffract-v0.1.0.tgz">
+          <span class="fa fa-download"></span>
+          Download diffract v0.1.0
+        </a>
+    </div>
+    <div class="container">
+      <div class="row">
+          <div class="col-sm-4">
+              <div class="feature-topic">
+                <h4>Pure React</h4>
+                The entire codebase is written using idiomatic React patterns.
+                All components provide consistent, intuitive APIs
+              </div>
+
+          </div>
+          <div class="col-sm-4">
+            <div class="feature-topic">
+              <h4>Elegant Animations</h4>
+              Smooth, visually pleasing animations are one of the key goals
+              of this project. Every data update is accompanied by animation.
+            </div>
+          </div>
+          <div class="col-sm-4">
+              <div class="feature-topic">
+                <h4>Built-in Styling</h4>
+                This project embraces
+                <a href="https://speakerdeck.com/vjeux/react-css-in-js">inline</a>
+                <a href="https://facebook.github.io/react/tips/inline-styles.html">styling</a>.
+                This means you only <samp>require</samp> the Javascript modules without
+                having to worry about including LESS or SASS files.
+              </div>
+          </div>
+      </div>
+      <div class="row">
+        <h2>Getting started</h2>
+        <div class="col-xs-12">
+          <p>
+            diffract is available via
+            <a href="https://www.npmjs.com/package/diffract">npm</a> and can be used with
+            <a href="http://browserify.org/">browserify</a>
+            or <a href="http://webpack.github.io/docs/">webpack</a>.
+          </p>
+          <pre>
+  npm install --save-dev diffract</pre>
+        </div>
+      </div>
+      <div class="row">
+        <h2>Samples</h2>
+      </div>
+      <div class="row component-showcase">
+        <div class="row">
+          <div class="col-xs-12">
+            <h3>Donut</h3>
+          </div>
+        </div>
+        <div class="col-xs-8">
+
+<pre><code class="language-jsx">
+  var Donut = require('diffract').Donut;
+  var React = require('react');
+  var colors = [ '#E91E63', '#2196F3', '#FF9800', '#4CAF50', '#673AB7' ],
+      width = 320, height = 240,
+      cnt = 0;
+
+  var DonutDemo = React.createClass({
+
+      // ...
+
+      render: function () {
+          return  (
+              &lt;Donut values={this.state.values}
+                    title="Hello" subtitle="using react"
+                    segmentColor={this.getColors} width={width} height={height} /&gt;
+          );
+      }
+  });
+
+
+  React.render(
+      &lt;DonutDemo/&gt;,
+      document.getElementById( 'donutDemo' )
+  );
+
+</code></pre>
+
+        </div>
+        <div class="col-xs-4">
+            <div id="donutDemo"></div>
+        </div>
+      </div>
+      <div class="row component-showcase">
+        <div class="row">
+          <div class="col-xs-12">
+            <h3>Bar Graph</h3>
+          </div>
+        </div>
+        <div class="col-xs-8">
+
+<pre><code class="language-jsx">
+  var BarGraph = require('diffract').BarGraph;
+  var React = require('react');
+  var colors = [ '#E91E63', '#2196F3', '#FF9800', '#4CAF50', '#673AB7' ],
+      width = 320, height = 240,
+      cnt = 0;
+
+  var BarGraphDemo = React.createClass({
+
+      // ...
+
+
+      render: function () {
+          return  (
+              &lt;BarGraph values={this.state.values} barColor={this.getColors}
+                  labels={this.state.labels} leftMargin={40}
+                  width={width} height={height} /&gt;
+          );
+      }
+  });
+
+
+  React.render(
+      &lt;BarGraphDemo/&gt;,
+      document.getElementById( 'barGraphDemo' )
+  );
+
+</code></pre>
+
+        </div>
+        <div class="col-xs-4">
+            <div id="barGraphDemo"></div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="page-footer">
+      Made with <span class="fa fa-heart"></span> using React and Bootstrap.
+    </div>
+    <script charset="utf-8" src="js/diffract.compiled.js"></script>
+    <script type="text/jsx" src="js/DonutDemo.jsx"></script>
+    <script type="text/jsx" src="js/BarGraphDemo.jsx"></script>
+    <script charset="utf-8" src="js/prism.js"></script>
+  </body>
+</html>

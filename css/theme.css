@@ -1,0 +1,73 @@
+body
+{
+    background-color: #F0F2FD;
+    font-weight: 300;
+}
+*, body
+{
+  font-family: 'Muli', 'Helvetica Neue', Arial, sans-serif;
+}
+h1, h2
+{
+  font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 700;
+}
+
+h1
+{
+  font-weight: 700;
+}
+
+h3
+{
+    text-transform: uppercase;
+    font-weight: 400;
+    font-size: 1.8em;
+}
+
+h4
+{
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 1.4em;
+}
+
+
+.jumbotron
+{
+    margin: -20px 0px 20px 0px;
+    font-size: 1em;
+    text-align: center;
+    background: #333;
+    color: #ededed;
+}
+
+.jumbotron h1
+{
+  font-size: 3.2em;
+}
+
+.jumbotron .subtitle
+{
+    color: #999;
+    font-size: 1em;
+    margin-bottom: 30px;
+}
+
+.feature-topic
+{
+    padding: 20px;
+}
+
+
+.page-footer
+{
+  padding: 40px;
+  margin-top: 50px;
+  background: #DDD;
+}
+
+.component-showcase
+{
+  margin-top: 30px;
+}
