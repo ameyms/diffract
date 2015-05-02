@@ -22,9 +22,6 @@ module.exports = function (grunt) {
                 }]
             }
         },
-        jscs: {
-            src: ['src/*.js']
-        },
 
         eslint: {
             source: {
@@ -96,7 +93,6 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('lint', [
-        'jscs',
         'eslint'
     ]);
 

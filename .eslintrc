@@ -5,50 +5,63 @@
     "node": true
   },
   "rules": {
-    "no-mixed-requires": [
-      0,
-      false
-    ],
-    "quotes": [
-      2,
-      "single"
-    ],
-    "strict": [
-      1,
-      "never"
-    ],
-    "semi": [
-      2,
-      "always"
-    ],
-    "curly": 1,
-    "no-bitwise": 1,
-    "max-len": [
-      1,
-      110,
-      4
-    ],
-    "vars-on-top": 0,
-    "guard-for-in": 1,
-    "no-underscore-dangle": 0,
-    "react/display-name": 1,
-    "react/jsx-quotes": [
-      2,
-      "double",
-      "avoid-escape"
-    ],
-    "react/jsx-no-undef": 2,
-    "react/jsx-sort-props": 0,
-    "react/jsx-uses-react": 1,
-    "react/jsx-uses-vars": 1,
-    "react/no-did-mount-set-state": 2,
-    "react/no-did-update-set-state": 2,
-    "react/no-multi-comp": 0,
-    "react/no-unknown-property": 1,
-    "react/prop-types": 2,
-    "react/react-in-jsx-scope": 1,
-    "react/self-closing-comp": 1,
-    "react/wrap-multilines": 2
+      "no-mixed-requires": [0, false],
+      "strict": [1, "never"],
+      "curly": 1,
+      "no-bitwise": 1,
+      "max-len": [1, 110, 4],
+      "vars-on-top": 0,
+      "guard-for-in": 1,
+      "no-underscore-dangle": 0,
+
+
+      "react/display-name": 1,
+      "react/jsx-quotes": [2, "double", "avoid-escape"],
+      "react/jsx-no-undef": 2,
+      "react/jsx-sort-props": 0,
+      "react/jsx-uses-react": 1,
+      "react/jsx-uses-vars": 1,
+      "react/no-did-mount-set-state": 2,
+      "react/no-did-update-set-state": 2,
+      "react/no-multi-comp": 0,
+      "react/no-unknown-property": 1,
+      "react/prop-types": 2,
+      "react/react-in-jsx-scope": 1,
+      "react/self-closing-comp": 1,
+      "react/wrap-multilines": 2,
+
+
+
+      "no-loop-func": 2,
+      "no-multi-spaces": 1,
+
+      "comma-dangle": "never",
+      "indent": [2, 4],
+      "quotes": [2, "single"],
+      "semi": [2, "always"],
+      "no-space-before-semi": 2,
+
+      "brace-style": [2, "1tbs", { "allowSingleLine": true }],
+      "key-spacing": [2,
+          {
+              "beforeColon": false,
+              "afterColon": true
+          }
+      ],
+
+      "new-cap": "newIsCap",
+
+      "space-after-keywords": [1, "always"],
+      "space-before-blocks": [1, "always"],
+      "space-in-brackets": [1, "never"],
+      "space-in-parens": [1, "never"],
+      "space-before-function-paren": [1, "never"],
+      "space-infix-ops": [2, {"int32Hint": false}],
+      "space-return-throw-case": 2,
+      "max-nested-callbacks": [2, 3],
+      "one-var": [0, "always"],
+
+      "eol-last": 2
   },
   "ecmaFeatures": {
     "jsx": true
