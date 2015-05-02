@@ -43,10 +43,10 @@ Axis = React.createClass({
         axisEl = d3.select(el);
 
         if (this.props.behavior === 'X') {
-            axisEl.attr( 'transform', 'translate(' + (Axis.MARGIN + this.props.leftMargin) + ',' +
+            axisEl.attr('transform', 'translate(' + (Axis.MARGIN + this.props.leftMargin) + ',' +
                 (this.props.displacement - Axis.MARGIN) + ')');
         } else {
-            axisEl.attr( 'transform', 'translate(' +
+            axisEl.attr('transform', 'translate(' +
                 (Axis.MARGIN + this.props.displacement + this.props.leftMargin) + ',0)');
         }
 

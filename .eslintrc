@@ -1,5 +1,5 @@
 {
-  "parser": "esprima-fb",
+  "parser": "babel-eslint",
   "env": {
     "browser": true,
     "node": true

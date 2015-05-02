@@ -126,7 +126,7 @@ BarGraph = React.createClass({
             h, y, i, xScale, yScale;
 
 
-        insetString = 'translate(' + (_inset + this.props.leftMargin) + ',' + (-_inset) + ' )';
+        insetString = 'translate(' + (_inset + this.props.leftMargin) + ',' + (-_inset) + ')';
         xScale = d3.scale.ordinal().
                 domain(this.props.labels).
                 rangeRoundBands([0, this.props.width - this.props.leftMargin - _inset], 0.2);

@@ -1,57 +1,55 @@
 
-var React = require( 'react' ),
-    Donut = require( 'diffract' ).Donut,
-    BarGraph = require( 'diffract' ).BarGraph,
-    colors = [ '#E91E63', '#2196F3', '#FF9800', '#4CAF50', '#673AB7' ],
+var React = require('react'),
+    Donut = require('diffract').Donut,
+    BarGraph = require('diffract').BarGraph,
+    colors = ['#E91E63', '#2196F3', '#FF9800', '#4CAF50', '#673AB7'],
     width = 320, height = 240,
     cnt = 1,
     App;
 
-App = React.createClass({
-
-    displayName: 'App',
+App = React.createClass({displayName: 'App',
 
     getInitialState: function() {
         return {
-            values: [ Math.random() * 10000, Math.random() * 10000,
+            values: [Math.random() * 10000, Math.random() * 10000,
                 Math.random() * 10000, Math.random() * 10000,
-                Math.random() * 10000 ],
+                Math.random() * 10000],
 
             labels: ['Elves', 'Dwarves', 'Hobbits', 'Men', 'Wizards']
         };
     },
-    getColors: function ( d, i ) {
-        if ( arguments.length === 2 ) {
-            return colors[ i ];
+    getColors: function(d, i) {
+        if (arguments.length === 2) {
+            return colors[i];
         } else {
-            return colors[ d ];
+            return colors[d];
         }
 
     },
 
-    getDonut: function () {
-
+    getDonut: function() {
         return (
             <Donut values={this.state.values} title="Hello" subtitle="using react"
                 segmentColor={this.getColors} width={width} height={height} />
         );
     },
 
-    getMultiColumnGraph: function () {
+    getMultiColumnGraph: function() {
         return null;
 
     },
 
     updateData: function() {
+
         if (cnt++ % 3) {
-            this.setState({values: [ Math.random() * 10000, Math.random() * 10000,
+            this.setState({values: [Math.random() * 10000, Math.random() * 10000,
                 Math.random() * 10000, Math.random() * 10000,
-                Math.random() * 10000 ],
+                Math.random() * 10000],
 
                 labels: ['Elves', 'Dwarves', 'Hobbits', 'Men', 'Wizards']});
         } else {
-            this.setState({values: [ Math.random() * 10000, Math.random() * 10000,
-                Math.random() * 10000, Math.random() * 10000 ],
+            this.setState({values: [Math.random() * 10000, Math.random() * 10000,
+                Math.random() * 10000, Math.random() * 10000],
 
                 labels: ['Elves', 'Dwarves', 'Hobbits', 'Men']});
         }
@@ -66,7 +64,6 @@ App = React.createClass({
     },
 
     getBarGraph: function() {
-
         return (
             <BarGraph values={this.state.values} barColor={this.getColors}
                 labels={this.state.labels} leftMargin={40}
@@ -75,7 +72,8 @@ App = React.createClass({
     },
 
 
-    render: function () {
+    render: function() {
+
         var donut = this.getDonut(),
             barGraph = this.getBarGraph(),
             multiSeries = this.getMultiColumnGraph(),
@@ -104,5 +102,5 @@ App = React.createClass({
 
 React.render(
     <App/>,
-    document.getElementById( 'appRoot' )
+    document.getElementById('appRoot')
 );
