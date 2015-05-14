@@ -1,5 +1,5 @@
 var React = require('react/addons'),
-    Axis = require('./axis'),
+    Axis = require('./Axis'),
     Constants = require('./constants'),
     ReactTransitionGroup = React.addons.TransitionGroup,
     _transitionDuration = Constants.TRANSITION_DURATION,
