@@ -8,16 +8,11 @@ Axis = React.createClass({
 
     displayName: 'Axis',
 
-    statics: {
-        MARGIN: 30
-    },
-
     propTypes: {
         behavior: React.PropTypes.oneOf(['X', 'Y']),
         scale: React.PropTypes.func,
         displacement: React.PropTypes.number,
-        offset: React.PropTypes.number,
-        leftMargin: React.PropTypes.number
+        offset: React.PropTypes.number
     },
 
     getDefaultProps: function() {
@@ -43,11 +38,7 @@ Axis = React.createClass({
         axisEl = d3.select(el);
 
         if (this.props.behavior === 'X') {
-            axisEl.attr('transform', 'translate(' + (Axis.MARGIN + this.props.leftMargin) + ',' +
-                (this.props.displacement - Axis.MARGIN) + ')');
-        } else {
-            axisEl.attr('transform', 'translate(' +
-                (Axis.MARGIN + this.props.displacement + this.props.leftMargin) + ',0)');
+            axisEl.attr('transform', 'translate(0,' + this.props.displacement + ')');
         }
 
         axisEl.transition().duration(_transitionDuration).call(axisFn);

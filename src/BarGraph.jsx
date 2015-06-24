@@ -3,7 +3,6 @@ var React = require('react/addons'),
     Constants = require('./constants'),
     ReactTransitionGroup = React.addons.TransitionGroup,
     _transitionDuration = Constants.TRANSITION_DURATION,
-    _inset = Axis.MARGIN,
     BarGraph, Bar;
 
 Bar = React.createClass({
@@ -100,9 +99,13 @@ BarGraph = React.createClass({
         values: React.PropTypes.arrayOf(React.PropTypes.number),
         labels: React.PropTypes.arrayOf(React.PropTypes.string),
         barColor: React.PropTypes.func,
-        leftMargin: React.PropTypes.number,
         width: React.PropTypes.number,
-        height: React.PropTypes.number
+        height: React.PropTypes.number,
+
+        marginTop: React.PropTypes.number,
+        marginRight: React.PropTypes.number,
+        marginBottom: React.PropTypes.number,
+        marginLeft: React.PropTypes.number
     },
 
     getInitialState: function() {
@@ -111,31 +114,38 @@ BarGraph = React.createClass({
 
     getDefaultProps: function() {
         return {
-            leftMargin: 0
+            marginTop: 10,
+            marginBottom: 50,
+            marginRight: 10,
+            marginLeft: 50
         };
     },
+
 
     render: function() {
 
         var len = this.props.values.length,
             bars = [],
             insetString,
-            h, y, i, xScale, yScale;
+            h, y, i, xScale, yScale, hMax, wMax;
 
 
-        insetString = 'translate(' + (_inset + this.props.leftMargin) + ',' + (-_inset) + ')';
+        wMax = this.props.width - this.props.marginLeft - this.props.marginRight;
+        hMax = this.props.height - this.props.marginTop - this.props.marginBottom;
+
+        insetString = 'translate(' + this.props.marginLeft + ',' + this.props.marginTop + ')';
         xScale = d3.scale.ordinal().
                 domain(this.props.labels).
-                rangeRoundBands([0, this.props.width - this.props.leftMargin - _inset], 0.2);
+                rangeRoundBands([0, wMax], 0.2);
 
 
         yScale = d3.scale.linear().
-                rangeRound([this.props.height - _inset, 0]).
+                rangeRound([hMax, 0]).
                 domain([0, d3.max(this.props.values)]);
 
         for (i = 0; i < len; i++) {
 
-            h = this.props.height - yScale(this.props.values[i]);
+            h = hMax - yScale(this.props.values[i]);
             y = yScale(this.props.values[i]);
             bars.push(
                 <Bar height={h} color={this.props.barColor(i)}
@@ -146,15 +156,15 @@ BarGraph = React.createClass({
 
         return (
             <svg width={this.props.width} height={this.props.height} className="bar-graph">
-                <g className="wrap">
+                <g className="wrap" transform={insetString}>
                     <ReactTransitionGroup component="g"
-                        transform={insetString} className="bars-container">
+                        className="bars-container">
                         {bars}
                     </ReactTransitionGroup>
                     <g className="axes-container">
                         <Axis behavior={"X"} scale={xScale}
-                            displacement={this.props.height} leftMargin={this.props.leftMargin}/>
-                        <Axis behavior={"Y"} scale={yScale} leftMargin={this.props.leftMargin}/>
+                            displacement={hMax}/>
+                        <Axis behavior={"Y"} scale={yScale}/>
                     </g>
                 </g>
             </svg>
