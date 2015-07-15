@@ -9,7 +9,11 @@ module.exports = function(grunt) {
 
         clean: {
             build: ['build/*'],
-            packages: ['diffract-*.*.*.tgz']
+            packages: ['diffract-*.*.*.tgz'],
+            demo: [
+                'example/node_modules/diffract',
+                'example/demo.*.js'
+            ]
         },
 
         copy: {
@@ -25,10 +29,16 @@ module.exports = function(grunt) {
 
         eslint: {
             source: {
-                src: ['src/{,*/}*.{js,jsx}', '!src/{,*/}__tests__/*.js']
+                src: ['src/{,*/}*.{js,jsx}', '!src/{,*/}__tests__/*.js'],
+                options: {
+                    configFile: '.eslintrc'
+                }
             },
             demo: {
-                src: ['example/demo.jsx']
+                src: ['example/{,*/}*.jsx'],
+                options: {
+                    configFile: 'example/.eslintrc'
+                }
             },
             tests: {
                 src: ['src/{,*/}__tests__/*.{js,jsx}'],
@@ -43,24 +53,49 @@ module.exports = function(grunt) {
             }
         },
 
-        react: {
-            files: {
+        babel: {
+            options: {
+                sourceMap: false
+            },
+            dist: {
+                files: [{
                     expand: true,
-                    src: ['*.jsx'],
-                    dest: 'build',
                     cwd: 'src',
+                    src: ['{,*/}*.js{,x}'],
+                    dest: 'build/',
                     ext: '.js'
+                }]
+            },
+            demo: {
+                files: [{
+                    expand: true,
+                    cwd: 'example',
+                    src: ['{,*/}*.jsx'],
+                    dest: '.tmp/',
+                    ext: '.js'
+                }]
             }
         },
+
+        browserify: {
+            options: {
+                sourceMap: false
+            },
+            demo: {
+                files: [{
+                    '.tmp/demo.js': ['.tmp/demo.js']
+                }]
+            }
+        },
+
+
         shell: {
             pack: {
                 command: 'npm pack'
             },
             demoSetup: {
                 command: [
-                    'rm -rf node_modules/diffract',
-                    'npm install ../diffract-<%= pkg.version %>.tgz ',
-                    'make'
+                    'npm install ../diffract-<%= pkg.version %>.tgz '
                 ].join('&&'),
 
                 options: {
@@ -74,8 +109,10 @@ module.exports = function(grunt) {
             server: {
                 options: {
                     port: 9001,
-                    base: 'example',
-                    keepAlive: true
+                    hostname: 'localhost',
+                    base: ['example', '.tmp'],
+                    keepAlive: true,
+                    open: true
                 }
             }
         },
@@ -86,7 +123,12 @@ module.exports = function(grunt) {
                     reload: true,
                     livereload: true
                 },
-                tasks: ['package', 'shell:demoSetup']
+                tasks: [
+                    'package',
+                    'shell:demoSetup',
+                    'babel:demo',
+                    'browserify:demo'
+                ]
             }
         }
 
@@ -97,17 +139,21 @@ module.exports = function(grunt) {
     ]);
 
     grunt.registerTask('package', [
-        'clean',
-        'react',
+        'clean:build',
         'copy',
         'lint',
+        'babel:dist',
+        'clean:packages',
         'shell:pack'
     ]);
 
 
     grunt.registerTask('demo', [
         'package',
+        'clean:demo',
         'shell:demoSetup',
+        'babel:demo',
+        'browserify:demo',
         'connect',
         'watch'
     ]);
