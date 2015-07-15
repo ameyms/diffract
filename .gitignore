@@ -4,6 +4,7 @@ build
 diffract-*.tgz
 # jsx Transform Disk Cache
 .module-cache
+.tmp
 
 # Exclude compiled files
 lib
