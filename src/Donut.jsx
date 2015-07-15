@@ -1,17 +1,16 @@
-var React = require('react/addons'),
-    ReactTransitionGroup = React.addons.TransitionGroup,
-    d3 = require('d3'),
-    arcGeneratorFn, pieGeneratorFn,
-    Donut, Slice;
+import React, {Component, PropTypes} from 'react/addons';
+import d3 from 'd3';
+
+let ReactTransitionGroup = React.addons.TransitionGroup;
 
 
-pieGeneratorFn = d3.layout.pie().
+let pieGeneratorFn = d3.layout.pie().
                     sort(null).
                     value(function(d) {
                         return d;
                     });
 
-arcGeneratorFn = function(innerR, outerR) {
+let arcGeneratorFn = function(innerR, outerR) {
     var arc;
 
     arc = d3.svg.arc().
@@ -22,45 +21,27 @@ arcGeneratorFn = function(innerR, outerR) {
         var i = d3.interpolate(this._current, a);
         this._current = i(0);
 
-        return function(t) {
+        return (t) => {
             return arc(i(t));
         };
     };
 };
 
 
-Slice = React.createClass({
+class Slice extends Component {
 
-    displayName: 'Slice',
+    constructor() {
+        super();
+        this.state = {};
+    }
 
-    propTypes: {
-        arcDescriptor: React.PropTypes.shape({
-            value: React.PropTypes.number,
-            startAngle: React.PropTypes.number,
-            endAngle: React.PropTypes.number,
-            padAngle: React.PropTypes.number,
-            data: React.PropTypes.number
-        }),
-
-        tween: React.PropTypes.func,
-        index: React.PropTypes.number,
-        color: React.PropTypes.func
-    },
-
-    getInitialState: function() {
-        return {};
-    },
-
-    componentDidUpdate: function(prevProps) {
+    componentDidUpdate(prevProps) {
         var pathEl = React.findDOMNode(this),
-            self = this,
-            d = self.props.arcDescriptor;
+            d = this.props.arcDescriptor;
 
         d3.select(pathEl).
             datum(d).
-            attr('fill', function() {
-                return self.props.color(d, self.props.index);
-            }).
+            attr('fill', () => this.props.color(d, this.props.index)).
             each(function() {
                 this._current = {
                     startAngle: prevProps.arcDescriptor.startAngle,
@@ -70,19 +51,16 @@ Slice = React.createClass({
             }).
             transition().
             duration(800).
-            attrTween('d', self.props.tween);
-    },
+            attrTween('d', this.props.tween);
+    }
 
-    componentWillAppear: function() {
+    componentWillAppear() {
         var pathEl = React.findDOMNode(this),
-            self = this,
-            d = self.props.arcDescriptor;
+            d = this.props.arcDescriptor;
 
         d3.select(pathEl).
             datum(d).
-            attr('fill', function() {
-                return self.props.color(d, self.props.index);
-            }).
+            attr('fill', () => self.props.color(d, self.props.index)).
             each(function() {
                 this._current = {
                     startAngle: d.startAngle,
@@ -92,20 +70,16 @@ Slice = React.createClass({
             }).
             transition().
             duration(800).
-            attrTween('d', self.props.tween);
-    },
+            attrTween('d', this.props.tween);
+    }
 
-    componentWillEnter: function(callback) {
+    componentWillEnter(callback) {
         var pathEl = React.findDOMNode(this),
-            self = this,
             d = self.props.arcDescriptor;
 
         d3.select(pathEl).
         datum(d).
-        attr('fill', function() {
-            return self.props.color(d, self.props.index);
-
-        }).
+        attr('fill', () => this.props.color(d, self.props.index)).
         each(function() {
             this._current = {
                 startAngle: d.startAngle,
@@ -118,12 +92,11 @@ Slice = React.createClass({
         attrTween('d', self.props.tween).
         each('end', callback);
 
-    },
+    }
 
-    componentWillLeave: function(callback) {
+    componentWillLeave(callback) {
         var pathEl = React.findDOMNode(this),
-            self = this,
-            d = self.props.arcDescriptor,
+            d = this.props.arcDescriptor,
             sAngle = d.startAngle;
 
         d.startAngle = d.endAngle;
@@ -141,66 +114,62 @@ Slice = React.createClass({
         }).
         transition().
         duration(800).
-        attrTween('d', self.props.tween).
+        attrTween('d', this.props.tween).
         each('end', callback);
 
-    },
+    }
 
-    render: function() {
+
+    render() {
         return (
-            <path className="slice"></path>
+            <path className="slice" />
         );
-    }});
+    }
+}
 
-Donut = React.createClass({
+Slice.displayName = 'Slice';
 
-    displayName: 'Donut',
+Slice.propTypes = {
+    arcDescriptor: PropTypes.shape({
+        value: PropTypes.number,
+        startAngle: PropTypes.number,
+        endAngle: PropTypes.number,
+        padAngle: PropTypes.number,
+        data: PropTypes.number
+    }),
 
-    propTypes: {
-        values: React.PropTypes.arrayOf(React.PropTypes.number),
-        title: React.PropTypes.string,
-        subtitle: React.PropTypes.string,
-        segmentColor: React.PropTypes.func,
-        width: React.PropTypes.number,
-        height: React.PropTypes.number
-    },
+    tween: PropTypes.func,
+    index: PropTypes.number,
+    color: PropTypes.func
+};
 
-    getInitialState: function() {
+export default class Donut extends React.Component {
 
-        return {};
-    },
-
-    componentDidMount: function() {
-
-    },
-
-    render: function() {
-        var slices = [],
-            len = this.props.values.length,
+    render() {
+        let slices = [],
             height = this.props.height,
             width = this.props.width,
             radius = Math.min(width, height) / 2,
             titleSize = radius / 4,
             subtitleSize = radius / 8,
-            i, arcDescriptors, a, arcTween,
+            arcDescriptors, arcTween,
             cx, cy, centerTransform;
 
         cx = Math.max(width, radius * 2) / 2;
         cy = Math.max(height, radius * 2) / 2;
 
-        centerTransform = 'translate(' + cx + ',' + cy + ')';
+        centerTransform = `translate(${cx},${cy})`;
 
         arcTween = arcGeneratorFn(0.75 * radius, 0.95 * radius);
         arcDescriptors = pieGeneratorFn(this.props.values);
 
-        for (i = 0; i < len; i++) {
-            a = arcDescriptors[i];
-            slices.push(
+        slices = arcDescriptors.map((a, i) => {
+            return (
                 <Slice className="slice" arcDescriptor={a}
                     key={i} index={i}
                     color={this.props.segmentColor} tween={arcTween} />
             );
-        }
+        });
 
         return (
             <svg className="donut" width={width} height={height}>
@@ -221,7 +190,16 @@ Donut = React.createClass({
                 </g>
             </svg>
         );
-    }});
+    }
+}
 
+Donut.displayName = 'Donut';
 
-module.exports = Donut;
+Donut.propTypes = {
+    values: PropTypes.arrayOf(PropTypes.number),
+    title: PropTypes.string,
+    subtitle: PropTypes.string,
+    segmentColor: PropTypes.func,
+    width: PropTypes.number,
+    height: PropTypes.number
+};

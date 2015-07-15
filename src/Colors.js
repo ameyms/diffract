@@ -1,3 +1,1 @@
-module.exports = {
-    AXIS_LINES: '#999'
-};
+export const AXIS_LINES = '#999';

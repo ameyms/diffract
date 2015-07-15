@@ -1,139 +1,115 @@
-var React = require('react/addons'),
-    Axis = require('./Axis'),
-    Constants = require('./constants'),
-    ReactTransitionGroup = React.addons.TransitionGroup,
-    _transitionDuration = Constants.TRANSITION_DURATION,
-    BarGraph, Bar;
+import React, {Component, PropTypes} from 'react/addons';
+import Axis from './Axis';
+import d3 from 'd3';
+import {TRANSITION_DURATION} from './constants';
 
-Bar = React.createClass({
+let ReactTransitionGroup = React.addons.TransitionGroup;
 
-    displayName: 'Bar',
+class Bar extends Component {
 
-    propTypes: {
-        color: React.PropTypes.string,
-        height: React.PropTypes.number,
-        width: React.PropTypes.number,
-        x: React.PropTypes.number,
-        y: React.PropTypes.number
-    },
+    constructor() {
+        super();
+        this.state = {};
+    }
 
-    getInitialState: function() {
-        return {};
-    },
-
-    componentWillAppear: function(callback) {
-        var self = this,
-            el = React.findDOMNode(this);
+    componentWillAppear(callback) {
+        let el = React.findDOMNode(this);
 
         d3.select(el).
-            attr('x', function() { return self.props.x; }).
-            attr('y', function() { return self.props.height + self.props.y; }).
-            attr('width', function() { return self.props.width; }).
-            attr('fill', function() { return self.props.color; }).
+            attr('x', () => this.props.x).
+            attr('y', () => this.props.height + this.props.y).
+            attr('width', () => this.props.width).
+            attr('fill', () => this.props.color).
             transition().
-            duration(_transitionDuration).
-            attr('y', function() { return self.props.y; }).
-            attr('height', function() { return self.props.height; }).
+            duration(TRANSITION_DURATION).
+            attr('y', () => this.props.y).
+            attr('height', () => this.props.height).
             each('end', callback);
-    },
-
-
-    componentWillEnter: function(callback) {
-        var self = this,
-            el = React.findDOMNode(this);
-
-        d3.select(el).
-            attr('x', function() { return self.props.x; }).
-            attr('y', function() { return self.props.height + self.props.y; }).
-            attr('width', function() { return self.props.width; }).
-            attr('fill', function() { return self.props.color; }).
-            transition().
-            duration(_transitionDuration).
-            attr('y', function() { return self.props.y; }).
-            attr('height', function() { return self.props.height; }).
-            each('end', callback);
-
-    },
-
-    componentWillLeave: function(callback) {
-        var self = this,
-            el = React.findDOMNode(this);
-
-        d3.select(el).
-            transition().
-            duration(_transitionDuration).
-            attr('x', function() { return self.props.x + self.props.width; }).
-            attr('width', function() { return 0; }).
-            each('end', callback);
-
-    },
-
-    componentDidUpdate: function() {
-        var self = this,
-            el = React.findDOMNode(this);
-
-        d3.select(el).
-            transition().
-            duration(_transitionDuration).
-            attr('x', function() { return self.props.x; }).
-            attr('y', function() { return self.props.y; }).
-            attr('width', function() { return self.props.width; }).
-            attr('fill', function() { return self.props.color; }).
-            attr('height', function() { return self.props.height; });
-    },
-
-    render: function() {
-        return (
-            <rect className="bar" x="0" y="0" width="0" height="0" fill={this.props.color}></rect>
-        );
     }
 
 
-});
+    componentWillEnter(callback) {
+        let el = React.findDOMNode(this);
 
-BarGraph = React.createClass({
+        d3.select(el).
+            attr('x', () => this.props.x).
+            attr('y', () => this.props.height + this.props.y).
+            attr('width', () => this.props.width).
+            attr('fill', () => this.props.color).
+            transition().
+            duration(TRANSITION_DURATION).
+            attr('y', () => this.props.y).
+            attr('height', () => this.props.height).
+            each('end', callback);
 
-    displayName: 'BarGraph',
+    }
 
-    propTypes: {
-        values: React.PropTypes.arrayOf(React.PropTypes.number),
-        labels: React.PropTypes.arrayOf(React.PropTypes.string),
-        barColor: React.PropTypes.func,
-        width: React.PropTypes.number,
-        height: React.PropTypes.number,
+    componentWillLeave(callback) {
+        let el = React.findDOMNode(this);
 
-        marginTop: React.PropTypes.number,
-        marginRight: React.PropTypes.number,
-        marginBottom: React.PropTypes.number,
-        marginLeft: React.PropTypes.number
-    },
+        d3.select(el).
+            transition().
+            duration(TRANSITION_DURATION).
+            attr('x', () => this.props.x + this.props.width).
+            attr('width', () => 0).
+            each('end', callback);
 
-    getInitialState: function() {
-        return {};
-    },
+    }
 
-    getDefaultProps: function() {
+    componentDidUpdate() {
+        let el = React.findDOMNode(this);
+
+        d3.select(el).
+            transition().
+            duration(TRANSITION_DURATION).
+            attr('x', () => this.props.x).
+            attr('y', () => this.props.y).
+            attr('width', () => this.props.width).
+            attr('fill', () => this.props.color).
+            attr('height', () => this.props.height);
+    }
+
+    render() {
+        return (
+            <rect className="bar" x="0" y="0"
+                width="0" height="0" fill={this.props.color}/>
+        );
+    }
+}
+
+Bar.displayName = 'Bar';
+
+Bar.propTypes = {
+    color: PropTypes.string,
+    height: PropTypes.number,
+    width: PropTypes.number,
+    x: PropTypes.number,
+    y: PropTypes.number
+};
+
+export default class BarGraph extends React.Component {
+
+    getDefaultProps() {
         return {
             marginTop: 10,
             marginBottom: 50,
             marginRight: 10,
             marginLeft: 50
         };
-    },
+    }
 
 
-    render: function() {
+    render() {
 
-        var len = this.props.values.length,
-            bars = [],
+        let bars = [],
             insetString,
-            h, y, i, xScale, yScale, hMax, wMax;
+            xScale, yScale, hMax, wMax;
 
 
         wMax = this.props.width - this.props.marginLeft - this.props.marginRight;
         hMax = this.props.height - this.props.marginTop - this.props.marginBottom;
 
-        insetString = 'translate(' + this.props.marginLeft + ',' + this.props.marginTop + ')';
+        insetString = `translate(${this.props.marginLeft}, ${this.props.marginTop})`;
         xScale = d3.scale.ordinal().
                 domain(this.props.labels).
                 rangeRoundBands([0, wMax], 0.2);
@@ -143,16 +119,16 @@ BarGraph = React.createClass({
                 rangeRound([hMax, 0]).
                 domain([0, d3.max(this.props.values)]);
 
-        for (i = 0; i < len; i++) {
+        bars = this.props.values.map((v, i) => {
+            let y = yScale(v);
+            let h = hMax - y;
 
-            h = hMax - yScale(this.props.values[i]);
-            y = yScale(this.props.values[i]);
-            bars.push(
+            return (
                 <Bar height={h} color={this.props.barColor(i)}
                     width={xScale.rangeBand()} key={i}
                     y={y} x={xScale(this.props.labels[i])} />
             );
-        }
+        });
 
         return (
             <svg width={this.props.width} height={this.props.height} className="bar-graph">
@@ -170,6 +146,18 @@ BarGraph = React.createClass({
             </svg>
         );
     }
-});
+}
 
-module.exports = BarGraph;
+BarGraph.displayName = 'BarGraph';
+BarGraph.propTypes = {
+    values: PropTypes.arrayOf(PropTypes.number),
+    labels: PropTypes.arrayOf(PropTypes.string),
+    barColor: PropTypes.func,
+    width: PropTypes.number,
+    height: PropTypes.number,
+
+    marginTop: PropTypes.number,
+    marginRight: PropTypes.number,
+    marginBottom: PropTypes.number,
+    marginLeft: PropTypes.number
+};

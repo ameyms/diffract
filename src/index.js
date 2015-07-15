@@ -1,4 +1,8 @@
-module.exports = {
-    Donut: require('./Donut'),
-    BarGraph: require('./BarGraph')
+import Donut from './Donut';
+import BarGraph from './BarGraph';
+
+
+export default {
+    Donut,
+    BarGraph
 };

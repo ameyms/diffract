@@ -1,3 +1,1 @@
-module.exports = {
-    TRANSITION_DURATION: 800
-};
+export const TRANSITION_DURATION = 800;
