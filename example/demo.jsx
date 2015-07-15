@@ -1,45 +1,45 @@
+import React, {Component} from 'react';
+import {Donut, BarGraph} from 'diffract';
 
-var React = require('react'),
-    Donut = require('diffract').Donut,
-    BarGraph = require('diffract').BarGraph,
-    colors = ['#E91E63', '#2196F3', '#FF9800', '#4CAF50', '#673AB7'],
+let colors = ['#E91E63', '#2196F3', '#FF9800', '#4CAF50', '#673AB7'],
     width = 320, height = 240,
-    cnt = 1,
-    App;
+    cnt = 1;
 
-App = React.createClass({displayName: 'App',
+class App extends Component {
 
-    getInitialState: function() {
-        return {
+    constructor() {
+        super();
+        this.state = {
             values: [Math.random() * 10000, Math.random() * 10000,
                 Math.random() * 10000, Math.random() * 10000,
                 Math.random() * 10000],
 
             labels: ['Elves', 'Dwarves', 'Hobbits', 'Men', 'Wizards']
         };
-    },
-    getColors: function(d, i) {
+    }
+
+    getColors(d, i) {
         if (arguments.length === 2) {
             return colors[i];
         } else {
             return colors[d];
         }
 
-    },
+    }
 
-    getDonut: function() {
+    getDonut() {
         return (
             <Donut values={this.state.values} title="Hello" subtitle="using react"
                 segmentColor={this.getColors} width={width} height={height} />
         );
-    },
+    }
 
-    getMultiColumnGraph: function() {
+    getMultiColumnGraph() {
         return null;
 
-    },
+    }
 
-    updateData: function() {
+    updateData() {
 
         if (cnt++ % 3) {
             this.setState({values: [Math.random() * 10000, Math.random() * 10000,
@@ -53,26 +53,26 @@ App = React.createClass({displayName: 'App',
 
                 labels: ['Elves', 'Dwarves', 'Hobbits', 'Men']});
         }
-    },
+    }
 
-    componentDidMount: function() {
-        this._updater = setInterval(this.updateData, 2000);
-    },
+    componentDidMount() {
+        this._updater = setInterval(this.updateData.bind(this), 2000);
+    }
 
-    componentDidUnmount: function() {
+    componentDidUnmount() {
         clearInterval(this._updater);
-    },
+    }
 
-    getBarGraph: function() {
+    getBarGraph() {
         return (
             <BarGraph values={this.state.values} barColor={this.getColors}
                 labels={this.state.labels} leftMargin={40}
                 width={width} height={height} />
         );
-    },
+    }
 
 
-    render: function() {
+    render() {
 
         var donut = this.getDonut(),
             barGraph = this.getBarGraph(),
@@ -97,8 +97,9 @@ App = React.createClass({displayName: 'App',
             </div>
         );
     }
-});
+}
 
+App.displayName = 'App';
 
 React.render(
     <App/>,
