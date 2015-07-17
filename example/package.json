@@ -4,7 +4,8 @@
   "description": "Showcase of diffract d3 widgets",
   "dependencies": {
     "react": "^0.13.1",
-    "d3": "^3.3.0"
+    "d3": "^3.3.0",
+    "diffract": "^0.1.0"
   },
   "author": "Amey Sakhadeo",
   "license": "ISC"
