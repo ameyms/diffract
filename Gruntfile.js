@@ -64,6 +64,19 @@ module.exports = function(grunt) {
                     src: ['{,*/}*.js{,x}'],
                     dest: 'build/',
                     ext: '.js'
+                }],
+
+                options: {
+                    // plugins: ['remove-console']
+                }
+            },
+            forDemo: {
+                files: [{
+                    expand: true,
+                    cwd: 'src',
+                    src: ['{,*/}*.js{,x}'],
+                    dest: 'example/node_modules/diffract/build',
+                    ext: '.js'
                 }]
             },
             demo: {
@@ -71,7 +84,7 @@ module.exports = function(grunt) {
                     expand: true,
                     cwd: 'example',
                     src: ['{,*/}*.jsx'],
-                    dest: '.tmp/',
+                    dest: 'example/',
                     ext: '.js'
                 }]
             }
@@ -83,7 +96,7 @@ module.exports = function(grunt) {
             },
             demo: {
                 files: [{
-                    '.tmp/demo.js': ['.tmp/demo.js']
+                    'example/demo.compiled.js': ['example/demo.js']
                 }]
             }
         },
@@ -124,9 +137,7 @@ module.exports = function(grunt) {
                     livereload: true
                 },
                 tasks: [
-                    'package',
-                    'shell:demoSetup',
-                    'babel:demo',
+                    'babel:forDemo',
                     'browserify:demo'
                 ]
             }
