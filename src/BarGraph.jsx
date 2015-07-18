@@ -89,22 +89,11 @@ Bar.propTypes = {
 
 export default class BarGraph extends React.Component {
 
-    getDefaultProps() {
-        return {
-            marginTop: 10,
-            marginBottom: 50,
-            marginRight: 10,
-            marginLeft: 50
-        };
-    }
-
-
     render() {
 
         let bars = [],
             insetString,
             xScale, yScale, hMax, wMax;
-
 
         wMax = this.props.width - this.props.marginLeft - this.props.marginRight;
         hMax = this.props.height - this.props.marginTop - this.props.marginBottom;
@@ -129,6 +118,7 @@ export default class BarGraph extends React.Component {
                     y={y} x={xScale(this.props.labels[i])} />
             );
         });
+        console.log(insetString);
 
         return (
             <svg width={this.props.width} height={this.props.height} className="bar-graph">
@@ -160,4 +150,12 @@ BarGraph.propTypes = {
     marginRight: PropTypes.number,
     marginBottom: PropTypes.number,
     marginLeft: PropTypes.number
+};
+
+BarGraph.defaultProps = {
+    marginTop: 10,
+    marginBottom: 50,
+    marginRight: 10,
+    marginLeft: 50
+
 };

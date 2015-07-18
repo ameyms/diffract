@@ -5,23 +5,17 @@ import d3 from 'd3';
 
 export default class Axis extends React.Component {
 
-    getDefaultProps() {
-        return {
-            displacement: 0,
-            leftMargin: 0
-        };
-    }
-
     drawAxis() {
-        let el = this.getDOMNode(),
+        let el = React.findDOMNode(this),
             axisFn, orientation, axisEl;
 
         orientation = this.props.behavior === 'X' ? 'bottom' : 'left';
 
-        axisFn = d3.svg.axis().scale(this.props.scale).orient(orientation).
-                    tickFormat(function(v) {
-                        return v;
-                    }).
+        console.log(this);
+
+        axisFn = d3.svg.axis().
+                    scale(this.props.scale).
+                    orient(orientation).
                     innerTickSize(5);
 
         axisEl = d3.select(el);
@@ -60,4 +54,9 @@ Axis.propTypes = {
     scale: React.PropTypes.func,
     displacement: React.PropTypes.number,
     offset: React.PropTypes.number
+};
+
+Axis.defaultProps = {
+    displacement: 0,
+    leftMargin: 0
 };
