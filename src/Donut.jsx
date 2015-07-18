@@ -60,7 +60,7 @@ class Slice extends Component {
 
         d3.select(pathEl).
             datum(d).
-            attr('fill', () => self.props.color(d, self.props.index)).
+            attr('fill', () => this.props.color(d, this.props.index)).
             each(function() {
                 this._current = {
                     startAngle: d.startAngle,
@@ -75,11 +75,11 @@ class Slice extends Component {
 
     componentWillEnter(callback) {
         var pathEl = React.findDOMNode(this),
-            d = self.props.arcDescriptor;
+            d = this.props.arcDescriptor;
 
         d3.select(pathEl).
         datum(d).
-        attr('fill', () => this.props.color(d, self.props.index)).
+        attr('fill', () => this.props.color(d, this.props.index)).
         each(function() {
             this._current = {
                 startAngle: d.startAngle,
@@ -89,7 +89,7 @@ class Slice extends Component {
         }).
         transition().
         duration(800).
-        attrTween('d', self.props.tween).
+        attrTween('d', this.props.tween).
         each('end', callback);
 
     }
