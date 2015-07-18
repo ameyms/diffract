@@ -1,21 +1,21 @@
-import React from 'react/addons';
+/* eslint-disable babel/object-shorthand */
+import React, {PropTypes, Component} from 'react';
 import {Axis as Styles} from './styles';
-import TRANSITION_DURATION from './constants';
+import {TRANSITION_DURATION} from './constants';
 import d3 from 'd3';
 
-export default class Axis extends React.Component {
+export default class Axis extends Component {
 
     drawAxis() {
-        let el = React.findDOMNode(this),
+        var el = React.findDOMNode(this),
             axisFn, orientation, axisEl;
 
         orientation = this.props.behavior === 'X' ? 'bottom' : 'left';
 
-        console.log(this);
-
-        axisFn = d3.svg.axis().
-                    scale(this.props.scale).
-                    orient(orientation).
+        axisFn = d3.svg.axis().scale(this.props.scale).orient(orientation).
+                    tickFormat(function(v) {
+                        return v;
+                    }).
                     innerTickSize(5);
 
         axisEl = d3.select(el);
@@ -50,13 +50,11 @@ export default class Axis extends React.Component {
 Axis.displayName = 'Axis';
 
 Axis.propTypes = {
-    behavior: React.PropTypes.oneOf(['X', 'Y']),
-    scale: React.PropTypes.func,
-    displacement: React.PropTypes.number,
-    offset: React.PropTypes.number
+    behavior: PropTypes.oneOf(['X', 'Y']),
+    scale: PropTypes.func,
+    displacement: PropTypes.number
 };
 
 Axis.defaultProps = {
-    displacement: 0,
-    leftMargin: 0
+    displacement: 0
 };
