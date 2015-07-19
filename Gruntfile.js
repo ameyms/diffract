@@ -67,7 +67,7 @@ module.exports = function(grunt) {
                 }],
 
                 options: {
-                    // plugins: ['remove-console']
+                    plugins: ['remove-console']
                 }
             },
             forDemo: {
