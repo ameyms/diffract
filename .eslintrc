@@ -15,7 +15,7 @@
         "vars-on-top": 0,
         "guard-for-in": 1,
         "no-underscore-dangle": 0,
-
+        "no-undef": 2,
 
         "react/display-name": 1,
         "react/jsx-quotes": [2, "double", "avoid-escape"],
@@ -96,8 +96,5 @@
     "plugins": [
         "babel",
         "react"
-    ],
-
-    "globals": {
-    }
+    ]
 }
