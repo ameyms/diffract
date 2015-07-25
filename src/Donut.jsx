@@ -137,7 +137,7 @@ Slice.propTypes = {
     color: PropTypes.func
 };
 
-export default class Donut extends React.Component {
+export default class Donut extends Component {
 
     render() {
         let slices = [],
