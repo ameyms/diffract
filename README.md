@@ -1,5 +1,8 @@
 # diffract
-
+[![npm version](https://badge.fury.io/js/diffract.svg)](http://badge.fury.io/js/diffract)
+[![devDependency Status](https://david-dm.org/ameyms/diffract/dev-status.svg)](https://david-dm.org/ameyms/diffract#info=devDependencies)
+[![peerDependency Status](https://david-dm.org/ameyms/diffract/peer-status.svg)](https://david-dm.org/ameyms/diffract#info=peerDependencies)
+[![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
 A set of d3 based visualization components with **cool animations** built for React
 
