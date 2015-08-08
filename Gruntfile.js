@@ -40,13 +40,6 @@ module.exports = function(grunt) {
                     configFile: 'example/.eslintrc'
                 }
             },
-            tests: {
-                src: ['src/{,*/}__tests__/*.{js,jsx}'],
-                options: {
-                    globals: ['jest', 'd3'],
-                    envs: ['jasmine', 'amd', 'node', 'browser']
-                }
-            },
 
             scripts: {
                 src: ['Gruntfile.js']
