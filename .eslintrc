@@ -33,8 +33,6 @@
         "react/wrap-multilines": 2,
 
         "babel/object-shorthand": 1,
-        "babel/generator-star": 1,
-        "babel/generator-star-spacing": 1,
 
         "no-loop-func": 2,
         "no-multi-spaces": 1,
@@ -43,7 +41,7 @@
         "indent": [2, 4],
         "quotes": [2, "single"],
         "semi": [2, "always"],
-        "no-space-before-semi": 2,
+        "semi-spacing": [2, {"before": false, "after": false}],
 
         "brace-style": [2, "1tbs", { "allowSingleLine": true }],
         "key-spacing": [2,
