@@ -1,13 +1,21 @@
-/* eslint-disable babel/object-shorthand */
 import React, {PropTypes, Component} from 'react';
+import ReactDom from 'react-dom';
 import {Axis as Styles} from './styles';
 import {TRANSITION_DURATION} from './constants';
 import d3 from 'd3';
 
 export default class Axis extends Component {
 
+    componentDidMount() {
+        this.drawAxis();
+    }
+
+    componentDidUpdate() {
+        this.drawAxis();
+    }
+
     drawAxis() {
-        var el = React.findDOMNode(this),
+        var el = ReactDom.findDOMNode(this),
             axisFn, orientation, axisEl;
 
         orientation = this.props.behavior === 'X' ? 'bottom' : 'left';
@@ -30,14 +38,6 @@ export default class Axis extends Component {
         axisEl.selectAll('line').style(Styles.lines);
     }
 
-    componentDidMount() {
-        this.drawAxis();
-    }
-
-    componentDidUpdate() {
-        this.drawAxis();
-    }
-
     render() {
         var classString = `${this.props.behavior}-axis axis`;
         return (
@@ -51,8 +51,8 @@ Axis.displayName = 'Axis';
 
 Axis.propTypes = {
     behavior: PropTypes.oneOf(['X', 'Y']),
-    scale: PropTypes.func,
-    displacement: PropTypes.number
+    displacement: PropTypes.number,
+    scale: PropTypes.func
 };
 
 Axis.defaultProps = {

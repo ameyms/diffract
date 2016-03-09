@@ -1,9 +1,10 @@
-import React, {Component, PropTypes} from 'react/addons';
+import React, {Component, PropTypes} from 'react';
+import ReactDOM from 'react-dom';
+import ReactTransitionGroup from 'react-addons-transition-group';
 import Axis from './Axis';
 import d3 from 'd3';
 import {TRANSITION_DURATION} from './constants';
 
-let ReactTransitionGroup = React.addons.TransitionGroup;
 
 class Bar extends Component {
 
@@ -12,8 +13,21 @@ class Bar extends Component {
         this.state = {};
     }
 
+    componentDidUpdate() {
+        const el = ReactDOM.findDOMNode(this);
+
+        d3.select(el).
+            transition().
+            duration(TRANSITION_DURATION).
+            attr('x', () => this.props.x).
+            attr('y', () => this.props.y).
+            attr('width', () => this.props.width).
+            attr('fill', () => this.props.color).
+            attr('height', () => this.props.height);
+    }
+
     componentWillAppear(callback) {
-        let el = React.findDOMNode(this);
+        const el = ReactDOM.findDOMNode(this);
 
         d3.select(el).
             attr('x', () => this.props.x).
@@ -29,7 +43,7 @@ class Bar extends Component {
 
 
     componentWillEnter(callback) {
-        let el = React.findDOMNode(this);
+        const el = ReactDOM.findDOMNode(this);
 
         d3.select(el).
             attr('x', () => this.props.x).
@@ -45,7 +59,7 @@ class Bar extends Component {
     }
 
     componentWillLeave(callback) {
-        let el = React.findDOMNode(this);
+        const el = ReactDOM.findDOMNode(this);
 
         d3.select(el).
             transition().
@@ -56,18 +70,7 @@ class Bar extends Component {
 
     }
 
-    componentDidUpdate() {
-        let el = React.findDOMNode(this);
 
-        d3.select(el).
-            transition().
-            duration(TRANSITION_DURATION).
-            attr('x', () => this.props.x).
-            attr('y', () => this.props.y).
-            attr('width', () => this.props.width).
-            attr('fill', () => this.props.color).
-            attr('height', () => this.props.height);
-    }
 
     render() {
         return (
@@ -91,26 +94,22 @@ export default class BarGraph extends React.Component {
 
     render() {
 
-        let bars = [],
-            insetString,
-            xScale, yScale, hMax, wMax;
+        const wMax = this.props.width - this.props.marginLeft - this.props.marginRight;
+        const hMax = this.props.height - this.props.marginTop - this.props.marginBottom;
 
-        wMax = this.props.width - this.props.marginLeft - this.props.marginRight;
-        hMax = this.props.height - this.props.marginTop - this.props.marginBottom;
-
-        insetString = `translate(${this.props.marginLeft}, ${this.props.marginTop})`;
-        xScale = d3.scale.ordinal().
+        const insetString = `translate(${this.props.marginLeft}, ${this.props.marginTop})`;
+        const xScale = d3.scale.ordinal().
                 domain(this.props.labels).
                 rangeRoundBands([0, wMax], 0.2);
 
 
-        yScale = d3.scale.linear().
+        const yScale = d3.scale.linear().
                 rangeRound([hMax, 0]).
                 domain([0, d3.max(this.props.values)]);
 
-        bars = this.props.values.map((v, i) => {
-            let y = yScale(v);
-            let h = hMax - y;
+        const bars = this.props.values.map((v, i) => {
+            const y = yScale(v);
+            const h = hMax - y;
 
             return (
                 <Bar height={h} color={this.props.barColor(i)}
@@ -140,16 +139,16 @@ export default class BarGraph extends React.Component {
 
 BarGraph.displayName = 'BarGraph';
 BarGraph.propTypes = {
-    values: PropTypes.arrayOf(PropTypes.number),
-    labels: PropTypes.arrayOf(PropTypes.string),
     barColor: PropTypes.func,
-    width: PropTypes.number,
     height: PropTypes.number,
-
-    marginTop: PropTypes.number,
-    marginRight: PropTypes.number,
+    labels: PropTypes.arrayOf(PropTypes.string),
     marginBottom: PropTypes.number,
-    marginLeft: PropTypes.number
+    marginLeft: PropTypes.number,
+    marginRight: PropTypes.number,
+    marginTop: PropTypes.number,
+    values: PropTypes.arrayOf(PropTypes.number),
+    width: PropTypes.number
+
 };
 
 BarGraph.defaultProps = {

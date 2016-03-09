@@ -12,7 +12,7 @@ module.exports = function(grunt) {
             packages: ['diffract-*.*.*.tgz'],
             demo: [
                 'example/node_modules/diffract',
-                'example/demo.*.js'
+                'example/demo{,.}*.js'
             ]
         },
 
@@ -48,7 +48,8 @@ module.exports = function(grunt) {
 
         babel: {
             options: {
-                sourceMap: false
+                sourceMap: false,
+                babelrc: true
             },
             dist: {
                 files: [{
@@ -57,39 +58,30 @@ module.exports = function(grunt) {
                     src: ['{,*/}*.js{,x}'],
                     dest: 'build/',
                     ext: '.js'
-                }],
-
-                options: {
-                    plugins: ['remove-console']
-                }
-            },
-            forDemo: {
-                files: [{
-                    expand: true,
-                    cwd: 'src',
-                    src: ['{,*/}*.js{,x}'],
-                    dest: 'example/node_modules/diffract/build',
-                    ext: '.js'
-                }]
-            },
-            demo: {
-                files: [{
-                    expand: true,
-                    cwd: 'example',
-                    src: ['{,*/}*.jsx'],
-                    dest: 'example/',
-                    ext: '.js'
                 }]
             }
         },
 
         browserify: {
             options: {
-                sourceMap: false
+                sourceMap: false,
+                transform: [
+                    [
+                        'babelify',
+                        {
+                            sourceMap: false,
+                            babelrc: true
+                        }
+                    ]
+                ]
             },
             demo: {
                 files: [{
-                    'example/demo.compiled.js': ['example/demo.js']
+                    expand: true,
+                    src: 'demo.jsx',
+                    dest: 'example/',
+                    ext: '.compiled.js',
+                    cwd: 'example'
                 }]
             }
         },
@@ -130,7 +122,6 @@ module.exports = function(grunt) {
                     livereload: true
                 },
                 tasks: [
-                    'babel:forDemo',
                     'browserify:demo'
                 ]
             }
@@ -156,7 +147,6 @@ module.exports = function(grunt) {
         'package',
         'clean:demo',
         'shell:demoSetup',
-        'babel:demo',
         'browserify:demo',
         'connect',
         'watch'

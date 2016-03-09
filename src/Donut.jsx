@@ -1,12 +1,12 @@
-import React, {Component, PropTypes} from 'react/addons';
+import React, {Component, PropTypes} from 'react';
+import ReactDOM from 'react-dom';
+import ReactTransitionGroup from 'react-addons-transition-group';
 import d3 from 'd3';
 
-let ReactTransitionGroup = React.addons.TransitionGroup;
 
+const pieGeneratorFn = d3.layout.pie().sort(null).value(d => d);
 
-let pieGeneratorFn = d3.layout.pie().sort(null).value(d => d);
-
-let arcGeneratorFn = function(innerR, outerR) {
+const arcGeneratorFn = (innerR, outerR) => {
     var arc;
 
     arc = d3.svg.arc().
@@ -27,7 +27,7 @@ let arcGeneratorFn = function(innerR, outerR) {
 class Slice extends Component {
 
     componentDidUpdate(prevProps) {
-        var pathEl = React.findDOMNode(this),
+        var pathEl = ReactDOM.findDOMNode(this),
             d = this.props.arcDescriptor;
 
         d3.select(pathEl).
@@ -47,7 +47,7 @@ class Slice extends Component {
 
     componentWillAppear(callback) {
 
-        var pathEl = React.findDOMNode(this),
+        var pathEl = ReactDOM.findDOMNode(this),
             d = this.props.arcDescriptor;
 
         d3.select(pathEl).
@@ -68,7 +68,7 @@ class Slice extends Component {
 
     componentWillEnter(callback) {
 
-        var pathEl = React.findDOMNode(this),
+        var pathEl = ReactDOM.findDOMNode(this),
             d = this.props.arcDescriptor;
 
         d3.select(pathEl).
@@ -89,7 +89,7 @@ class Slice extends Component {
     }
 
     componentWillLeave(callback) {
-        var pathEl = React.findDOMNode(this),
+        var pathEl = ReactDOM.findDOMNode(this),
             d = this.props.arcDescriptor,
             sAngle = d.startAngle;
 
@@ -132,32 +132,29 @@ Slice.propTypes = {
         data: PropTypes.number
     }),
 
-    tween: PropTypes.func,
+    color: PropTypes.func,
     idx: PropTypes.number,
-    color: PropTypes.func
+    tween: PropTypes.func
 };
 
 export default class Donut extends Component {
 
     render() {
-        let slices = [],
-            height = this.props.height,
+        const height = this.props.height,
             width = this.props.width,
             radius = Math.min(width, height) / 2,
             titleSize = radius / 4,
-            subtitleSize = radius / 8,
-            arcDescriptors, arcTween,
-            cx, cy, centerTransform;
+            subtitleSize = radius / 8;
 
-        cx = Math.max(width, radius * 2) / 2;
-        cy = Math.max(height, radius * 2) / 2;
+        const cx = Math.max(width, radius * 2) / 2;
+        const cy = Math.max(height, radius * 2) / 2;
 
-        centerTransform = `translate(${cx}, ${cy})`;
+        const centerTransform = `translate(${cx}, ${cy})`;
 
-        arcTween = arcGeneratorFn(0.75 * radius, 0.95 * radius);
-        arcDescriptors = pieGeneratorFn(this.props.values);
+        const arcTween = arcGeneratorFn(0.75 * radius, 0.95 * radius);
+        const arcDescriptors = pieGeneratorFn(this.props.values);
 
-        slices = arcDescriptors.map((a, i) => {
+        const slices = arcDescriptors.map((a, i) => {
             return (
                 <Slice className="slice" arcDescriptor={a}
                     key={i} idx={i}
@@ -170,9 +167,9 @@ export default class Donut extends Component {
             <svg className="donut" width={width} height={height}>
                 <g transform={centerTransform}>
                     <ReactTransitionGroup component="g" className="slices"
-                        transitionAppear={true} transitionEnter={true}
-                        transitionLeave={true}>
-                        { slices }
+                        transitionAppear transitionEnter
+                        transitionLeave>
+                            {slices}
                     </ReactTransitionGroup>
                     <g className="labels">
                         <text className="donut-title" textAnchor="middle"
@@ -180,7 +177,7 @@ export default class Donut extends Component {
                             {this.props.title}
                         </text>
                         <text className="donut-subtitle" textAnchor="middle"
-                             x={0} y={titleSize} fontSize={subtitleSize}>
+                            x={0} y={titleSize} fontSize={subtitleSize}>
                             {this.props.subtitle}
                         </text>
                     </g>
@@ -193,10 +190,10 @@ export default class Donut extends Component {
 Donut.displayName = 'Donut';
 
 Donut.propTypes = {
-    values: PropTypes.arrayOf(PropTypes.number),
-    title: PropTypes.string,
-    subtitle: PropTypes.string,
+    height: PropTypes.number,
     segmentColor: PropTypes.func,
-    width: PropTypes.number,
-    height: PropTypes.number
+    subtitle: PropTypes.string,
+    title: PropTypes.string,
+    values: PropTypes.arrayOf(PropTypes.number),
+    width: PropTypes.number
 };

@@ -1,12 +1,14 @@
 {
   "name": "diffract-example",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Showcase of diffract d3 widgets",
   "dependencies": {
-    "react": "^0.13.1",
-    "d3": "^3.3.0",
-    "diffract": "^0.1.0"
+    "d3": "^3.5.6",
+    "react": "^0.14.7",
+    "react-addons-transition-group": "^0.14.7",
+    "react-dom": "^0.14.1"
   },
   "author": "Amey Sakhadeo",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {}
 }
