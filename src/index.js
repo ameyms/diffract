@@ -2,7 +2,7 @@ import Donut from './Donut';
 import BarGraph from './BarGraph';
 
 
-export default {
+module.exports = {
     Donut,
     BarGraph
 };

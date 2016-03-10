@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import ReactDom from 'react-dom';
-import diffract from 'diffract';
-
-const {Donut, BarGraph} = diffract;
+import {Donut, BarGraph} from 'diffract';
 
 const colors = ['#E91E63', '#2196F3', '#FF9800', '#4CAF50', '#673AB7'];
 const width = 320;
