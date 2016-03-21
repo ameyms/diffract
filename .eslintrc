@@ -271,7 +271,7 @@
       1,
       "prefer-double"
     ],
-    "react/jsx-sort-prop-types": 1,
+    "react/sort-prop-types": 0,
     "react/jsx-sort-props": [
       0,
       {
@@ -288,7 +288,7 @@
     "react/no-multi-comp": 0,
     "react/no-set-state": 0,
     "react/no-unknown-property": 2,
-    "react/prop-types": 2,
+    "react/prop-types": 0,
     "react/react-in-jsx-scope": 2,
     "react/require-extension": 0,
     "react/self-closing-comp": 1,

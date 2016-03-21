@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import ReactDom from 'react-dom';
-import {Donut, BarGraph} from 'diffract';
+import {Chart, Pie, Donut, BarGraph} from 'diffract';
 
 const colors = ['#E91E63', '#2196F3', '#FF9800', '#4CAF50', '#673AB7'];
 const width = 320;
@@ -37,10 +37,27 @@ class App extends Component {
 
     }
 
+    getPieChart() {
+        return (
+            <Chart width={width} height={height} data={this.state.values}>
+                <Pie innerRadius={75} outerRadius={110}
+                    style={(d, i) => ({fill: this.getColors(i)})}>
+                    <text className="donut-title" textAnchor="middle"
+                        x={0} y={0} fontSize={18}>
+                        {'Hello'}
+                    </text>
+                    <text className="donut-subtitle" textAnchor="middle"
+                        x={0} y={18} fontSize={10}>
+                        {'diffract'}
+                    </text>
+                </Pie>
+            </Chart>
+        );
+    }
     getDonut() {
         return (
-            <Donut values={this.state.values} title="Hello" subtitle="using react"
-                segmentColor={this.getColors} width={width} height={height} />
+            <Donut data={this.state.values} title="Hello" subtitle="using react"
+                segmentColor={this.getColors} radius={Math.min(width, height) / 2}/>
         );
     }
 
