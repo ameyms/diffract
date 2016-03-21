@@ -1,11 +1,17 @@
 import React, {Component} from 'react';
 import ReactDom from 'react-dom';
-import {util, Chart, BarChart, Pie, Axis} from 'diffract';
+import {util, Chart, BarChart, Pie, Axis, Stack, Group} from 'diffract';
 
 const colors = ['#E91E63', '#2196F3', '#FF9800', '#4CAF50', '#673AB7'];
-const width = 320;
+const width = 640;
 const height = 240;
 let cnt = 1;
+
+const getRandomValuesArray = () => ([
+    Math.random() * 10000, Math.random() * 10000,
+    Math.random() * 10000, Math.random() * 10000,
+    Math.random() * 10000
+]);
 
 class App extends Component {
 
@@ -16,12 +22,18 @@ class App extends Component {
                 Math.random() * 10000, Math.random() * 10000,
                 Math.random() * 10000],
 
+            multiValues: [
+                getRandomValuesArray(), getRandomValuesArray(),
+                getRandomValuesArray(), getRandomValuesArray(),
+                getRandomValuesArray()
+            ],
+
             labels: ['Elves', 'Dwarves', 'Hobbits', 'Men', 'Wizards']
         };
     }
 
     componentDidMount() {
-        //this._updater = setInterval(this.updateData.bind(this), 5000);
+        this._updater = setInterval(this.updateData.bind(this), 5000);
     }
 
     componentWillUnmount() {
@@ -55,22 +67,29 @@ class App extends Component {
         );
     }
 
-    getMultiColumnGraph() {
-        return null;
-
-    }
-
     updateData() {
 
         if (cnt++ % 3) {
-            this.setState({values: [Math.random() * 10000, Math.random() * 10000,
-                Math.random() * 10000, Math.random() * 10000,
-                Math.random() * 10000],
+            this.setState({
 
+                values: getRandomValuesArray(),
+
+                multiValues: [
+                    getRandomValuesArray(), getRandomValuesArray(),
+                    getRandomValuesArray(), getRandomValuesArray(),
+                    getRandomValuesArray()
+                ],
                 labels: ['Elves', 'Dwarves', 'Hobbits', 'Men', 'Wizards']});
         } else {
-            this.setState({values: [Math.random() * 10000, Math.random() * 10000,
-                Math.random() * 10000, Math.random() * 10000],
+            this.setState({
+                values: [
+                    Math.random() * 10000, Math.random() * 10000,
+                    Math.random() * 10000, Math.random() * 10000
+                ],
+                multiValues: [
+                    getRandomValuesArray(), getRandomValuesArray(),
+                    getRandomValuesArray(), getRandomValuesArray()
+                ],
 
                 labels: ['Elves', 'Dwarves', 'Hobbits', 'Men']});
         }
@@ -79,21 +98,63 @@ class App extends Component {
     getBarChart() {
         return (
             <Chart width={width} height={height} data={this.state.values}
+                xScale={util.scale.ordinal} yScale={util.scale.linear}
                 margin={{
                     left: 50,
                     bottom: 20,
                     top: 0,
                     right: 0
                 }}>
-                <BarChart xScale={util.scale.ordinal} yScale={util.scale.linear}
-                    style={(d, i) => ({fill: this.getColors(i)})}>
+                <BarChart style={(d, i) => ({fill: this.getColors(i)})}/>
+                <Axis orientation="bottom" tickFormat={(d, i) => this.state.labels[i]}/>
+                <Axis orientation="left"
+                    tickFormat={d => {
+                        return d;
+                    }}/>
+            </Chart>
+        );
+    }
+
+    getStackedBarChart() {
+        return (
+            <Chart width={width} height={height} data={this.state.multiValues}
+                xScale={util.scale.ordinal} yScale={util.scale.linear}
+                margin={{
+                    left: 50,
+                    bottom: 20,
+                    top: 0,
+                    right: 0
+                }}>
+                <Stack>
+                    <BarChart style={(d, i) => ({fill: this.getColors(i)})}/>
                     <Axis orientation="bottom" tickFormat={(d, i) => this.state.labels[i]}/>
                     <Axis orientation="left"
                         tickFormat={d => {
-                            console.log(d);
                             return d;
                         }}/>
-                </BarChart>
+                </Stack>
+            </Chart>
+        );
+    }
+
+    getGroupedBarChart() {
+        return (
+            <Chart width={width} height={height} data={this.state.multiValues}
+                xScale={util.scale.ordinal} yScale={util.scale.linear}
+                margin={{
+                    left: 50,
+                    bottom: 20,
+                    top: 0,
+                    right: 0
+                }}>
+                <Group>
+                    <BarChart style={(d, i) => ({fill: this.getColors(i)})}/>
+                    <Axis orientation="bottom" tickFormat={(d, i) => this.state.labels[i]}/>
+                    <Axis orientation="left"
+                        tickFormat={d => {
+                            return d;
+                        }}/>
+                </Group>
             </Chart>
         );
     }
@@ -102,6 +163,8 @@ class App extends Component {
 
         const donut = this.getPieChart();
         const barGraph = this.getBarChart();
+        const stackedBarGraph = this.getStackedBarChart();
+        const groupedBarGraph = this.getGroupedBarChart();
         const padding = {padding: '50px'};
 
         return (
@@ -114,6 +177,15 @@ class App extends Component {
                     <h2>{'Bar Graph'}</h2>
                     {barGraph}
                 </div>
+                <div width="640" height="480">
+                    <h2>{'Stacked Chart'}</h2>
+                    {stackedBarGraph}
+                </div>
+                <div width="640" height="480">
+                    <h2>{'Grouped Chart'}</h2>
+                    {groupedBarGraph}
+                </div>
+
             </div>
         );
     }

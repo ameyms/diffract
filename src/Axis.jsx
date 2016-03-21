@@ -9,9 +9,13 @@ export default class Axis extends Component {
     static displayName = 'Axis'
 
     static contextTypes = {
-        xScale: PropTypes.func,
-        yScale: PropTypes.func,
-        data: PropTypes.arrayOf(PropTypes.number),
+        xScale: PropTypes.func.isRequired,
+        yScale: PropTypes.func.isRequired,
+        dataTransform: PropTypes.func,
+        data: PropTypes.oneOfType([
+            PropTypes.arrayOf(PropTypes.number),
+            PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number))
+        ]),
         height: PropTypes.number,
         width: PropTypes.number,
         margin: PropTypes.shape({
@@ -45,16 +49,31 @@ export default class Axis extends Component {
 
         const el = d3.select(ReactDom.findDOMNode(this));
         const {orientation, tickFormat} = this.props;
-        const {xScale, yScale, width, height, margin} = this.context;
+        const {
+            xScale, yScale, width, height, margin, data,
+            dataTransform = arr => arr.map((d, i) => ({
+                x: i,
+                y0: 0,
+                y: d,
+                z: 0
+            }))
+        } = this.context;
 
         const wMax = width - margin.left - margin.right;
         const hMax = height - margin.top - margin.bottom;
+        const txData = dataTransform(data);
 
         let displacement;
         let scale = xScale;
 
         if (orientation === 'left' || orientation === 'right') {
-            scale = yScale;
+            scale = yScale().
+                        rangeRound([hMax, 0]).
+                        domain([0, d3.max(txData, d => d.y0 + d.y)]);
+        } else {
+            scale = xScale().
+                    domain(d3.range(data.length)).
+                    rangeRoundBands([0, wMax], 0.2);
         }
 
         switch (orientation) {
@@ -71,9 +90,11 @@ export default class Axis extends Component {
                 break;
         }
 
-        const axisFn = d3.svg.axis().scale(scale).orient(orientation).
-                    tickFormat(tickFormat).
-                    innerTickSize(5);
+        const axisFn = d3.svg.axis().
+                            scale(scale).
+                            orient(orientation).
+                            tickFormat(tickFormat).
+                            innerTickSize(5);
 
         el.attr('transform', displacement);
 

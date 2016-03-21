@@ -7,59 +7,31 @@ export default class BarChart extends Component {
     static displayName = 'BarChart'
 
     static propTypes = {
-        style: PropTypes.func,
-        xScale: PropTypes.func,
-        yScale: PropTypes.func
+        style: PropTypes.func
     }
 
     static contextTypes = {
-        data: PropTypes.arrayOf(PropTypes.number),
-        height: PropTypes.number,
-        width: PropTypes.number,
-        margin: PropTypes.shape({
-            top: PropTypes.number,
-            bottom: PropTypes.number,
-            left: PropTypes.number,
-            right: PropTypes.number
-        })
-    }
-
-    static childContextTypes = {
-        data: PropTypes.arrayOf(PropTypes.number),
-        height: PropTypes.number,
-        width: PropTypes.number,
+        data: PropTypes.oneOfType([
+            PropTypes.arrayOf(PropTypes.number),
+            PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number))
+        ]),
+        height: PropTypes.number.isRequired,
+        width: PropTypes.number.isRequired,
         margin: PropTypes.shape({
             top: PropTypes.number,
             bottom: PropTypes.number,
             left: PropTypes.number,
             right: PropTypes.number
         }),
-        xScale: PropTypes.func,
-        yScale: PropTypes.func
+        xScale: PropTypes.func.isRequired,
+        yScale: PropTypes.func.isRequired,
+        dataTransform: PropTypes.func,
+        stackSize: PropTypes.number,
+        groupWidth: PropTypes.number
     }
-
 
     static defaultProps = {
         style: () => ({})
-    }
-
-    getChildContext() {
-        const {xScale, yScale} = this.props;
-        const {data, width, height, margin} = this.context;
-
-        const wMax = width - margin.left - margin.right;
-        const hMax = height - margin.top - margin.bottom;
-
-        return {
-            data, width, height, margin,
-            xScale: xScale().
-                    domain(d3.range(0, data.length)).
-                    rangeRoundBands([0, wMax], 0.2),
-
-            yScale: yScale().
-                    rangeRound([hMax, 0]).
-                    domain([0, d3.max(data)])
-        };
     }
 
     willLeave({style}) {
@@ -72,53 +44,63 @@ export default class BarChart extends Component {
     }
 
     willEnter({style}) {
-        const {height, margin} = this.context;
-        const hMax = height - margin.top - margin.bottom;
-
         return {
             ...style,
             width: 0,
-            height: 0,
-            y: hMax
+            x: style.x + style.width
         };
     }
 
     render() {
 
-        const {xScale, yScale} = this.props;
-        const {width, height, data, margin} = this.context;
+        const {
+            width, height, margin, xScale, yScale, data,
+            dataTransform = arr => arr.map((d, i) => ({
+                x: i,
+                dx: 0,
+                y0: 0,
+                y: d,
+                z: 0,
+                index: i
+            })),
+            groupWidth = 1,
+            stackSize = 1
+
+        } = this.context;
 
         const wMax = width - margin.left - margin.right;
         const hMax = height - margin.top - margin.bottom;
+        const txData = dataTransform(data);
 
         const xScaleFn = xScale().
-                domain(d3.range(0, data.length)).
+                domain(d3.range(data.length)).
                 rangeRoundBands([0, wMax], 0.2);
 
 
         const yScaleFn = yScale().
                 rangeRound([hMax, 0]).
-                domain([0, d3.max(data)]);
+                domain([0, d3.max(txData, d => d.y0 + d.y)]);
 
-        const motionStyles = data.map((d, i) => ({
-            key: i + '',
-            data: {...d, index: i},
+        const motionStyles = txData.map(d => ({
+            key: d.index + '-' + d.z,
+            data: {...d, index: d.index},
             style: {
-                width: xScaleFn.rangeBand(),
-                height: hMax - yScaleFn(d),
-                y: yScaleFn(d),
-                x: xScaleFn(i)
+                width: xScaleFn.rangeBand() / groupWidth,
+                height: yScaleFn(d.y0) - yScaleFn(d.y0 + d.y),
+                y: yScaleFn(d.y0 + d.y),
+                x: xScaleFn(d.x) + xScaleFn.rangeBand() / groupWidth * d.dx
+
             }
         }));
 
-        const defaultStyles = data.map((d, i) => ({
-            key: i + '',
-            data: {...d, index: i},
+        const defaultStyles = txData.map(d => ({
+            key: d.index + '-' + d.z,
+            data: {...d, index: d.index},
             style: {
-                width: xScaleFn.rangeBand(),
+                width: xScaleFn.rangeBand() / groupWidth,
                 height: 0,
-                y: hMax,
-                x: xScaleFn(i)
+                y: yScaleFn(d.y0),
+                x: xScaleFn(d.x) + xScaleFn.rangeBand() / groupWidth * d.dx
             }
         }));
 
@@ -142,15 +124,23 @@ export default class BarChart extends Component {
                                         x: spring(config.style.x),
                                         width: spring(config.style.width)
                                     }}>
-                                    {interStyle => (
-                                        <rect className="bar" width={interStyle.width}
-                                            height={interStyle.height}
-                                            x={interStyle.x} y={interStyle.y}
-                                            style={this.props.style(
-                                                config.data.value,
-                                                config.data.index
-                                            )}/>
-                                    )}
+                                    {interStyle => {
+                                        console.log('stackSize=' + stackSize +
+                                            ' ' + (stackSize === 1 ? config.data.index :
+                                            config.data.index % stackSize) + ' @ ' +
+                                            config.style.x);
+
+                                        return (
+                                            <rect className="bar" width={interStyle.width}
+                                                height={interStyle.height}
+                                                x={interStyle.x} y={interStyle.y}
+                                                style={this.props.style(
+                                                    config.data.value,
+                                                    config.data.index
+                                                )}/>
+                                        );
+                                    }
+                                }
                                 </Motion>
                             ))}
                         </g>
