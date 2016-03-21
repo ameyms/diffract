@@ -1,12 +1,13 @@
 import Chart from './Chart';
 import Pie from './Pie';
-import Donut from './Donut';
-import BarGraph from './BarGraph';
-
+import BarChart from './BarChart';
+import Axis from './Axis';
+import util from './util';
 
 module.exports = {
     Chart,
     Pie,
-    Donut,
-    BarGraph
+    BarChart,
+    Axis,
+    util
 };

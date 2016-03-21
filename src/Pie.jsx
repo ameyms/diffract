@@ -4,6 +4,8 @@ import {TransitionMotion, Motion, spring} from 'react-motion';
 
 export default class Pie extends Component {
 
+    static displayName = 'Pie'
+
     static propTypes = {
         innerRadius: PropTypes.number,
         outerRadius: PropTypes.number,
@@ -13,22 +15,30 @@ export default class Pie extends Component {
     static contextTypes = {
         data: PropTypes.arrayOf(PropTypes.number),
         height: PropTypes.number,
-        width: PropTypes.number
+        width: PropTypes.number,
+        margin: PropTypes.shape({
+            top: PropTypes.number,
+            bottom: PropTypes.number,
+            left: PropTypes.number,
+            right: PropTypes.number
+        })
     }
 
-    willLeave(leavingStyle) {
-        console.log(leavingStyle);
+    static defaultProps = {
+        style: () => ({})
+    }
+
+    willLeave({style}) {
         return {
-            ...leavingStyle.style,
-            startAngle: leavingStyle.style.endAngle
+            ...style,
+            startAngle: style.endAngle
         };
     }
 
-    willEnter(entryStyle) {
-        console.log(entryStyle);
+    willEnter({style}) {
         return {
-            ...entryStyle.style,
-            endAngle: entryStyle.style.startAngle
+            ...style,
+            endAngle: style.startAngle
         };
     }
 

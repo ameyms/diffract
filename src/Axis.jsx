@@ -6,6 +6,33 @@ import d3 from 'd3';
 
 export default class Axis extends Component {
 
+    static displayName = 'Axis'
+
+    static contextTypes = {
+        xScale: PropTypes.func,
+        yScale: PropTypes.func,
+        data: PropTypes.arrayOf(PropTypes.number),
+        height: PropTypes.number,
+        width: PropTypes.number,
+        margin: PropTypes.shape({
+            top: PropTypes.number,
+            bottom: PropTypes.number,
+            left: PropTypes.number,
+            right: PropTypes.number
+        })
+    }
+
+    static propTypes = {
+        labels: PropTypes.func,
+        orientation: PropTypes.string,
+        tickFormat: PropTypes.func
+    }
+
+    static defaultProps = {
+        tickFormat: v => (v),
+        labels: v => (v)
+    }
+
     componentDidMount() {
         this.drawAxis();
     }
@@ -15,46 +42,51 @@ export default class Axis extends Component {
     }
 
     drawAxis() {
-        var el = ReactDom.findDOMNode(this),
-            axisFn, orientation, axisEl;
 
-        orientation = this.props.behavior === 'X' ? 'bottom' : 'left';
+        const el = d3.select(ReactDom.findDOMNode(this));
+        const {orientation, tickFormat} = this.props;
+        const {xScale, yScale, width, height, margin} = this.context;
 
-        axisFn = d3.svg.axis().scale(this.props.scale).orient(orientation).
-                    tickFormat(function(v) {
-                        return v;
-                    }).
-                    innerTickSize(5);
+        const wMax = width - margin.left - margin.right;
+        const hMax = height - margin.top - margin.bottom;
 
-        axisEl = d3.select(el);
+        let displacement;
+        let scale = xScale;
 
-        if (this.props.behavior === 'X') {
-            axisEl.attr('transform', `translate(0, ${this.props.displacement})`);
+        if (orientation === 'left' || orientation === 'right') {
+            scale = yScale;
         }
 
-        axisEl.transition().duration(TRANSITION_DURATION).call(axisFn);
-        axisEl.selectAll('text').style(Styles.text);
-        axisEl.selectAll('path').style(Styles.paths);
-        axisEl.selectAll('line').style(Styles.lines);
+        switch (orientation) {
+            case 'bottom':
+                displacement = `translate(0, ${hMax})`;
+                break;
+
+            case 'right':
+                displacement = `translate(${wMax}, 0)`;
+                break;
+
+            default:
+                displacement = 'translate(0, 0)';
+                break;
+        }
+
+        const axisFn = d3.svg.axis().scale(scale).orient(orientation).
+                    tickFormat(tickFormat).
+                    innerTickSize(5);
+
+        el.attr('transform', displacement);
+
+        el.transition().duration(TRANSITION_DURATION).call(axisFn);
+        el.selectAll('text').style(Styles.text);
+        el.selectAll('path').style(Styles.paths);
+        el.selectAll('line').style(Styles.lines);
     }
 
     render() {
-        var classString = `${this.props.behavior}-axis axis`;
         return (
-            <g className={classString}>
+            <g className="axis">
             </g>
         );
     }
 }
-
-Axis.displayName = 'Axis';
-
-Axis.propTypes = {
-    behavior: PropTypes.oneOf(['X', 'Y']),
-    displacement: PropTypes.number,
-    scale: PropTypes.func
-};
-
-Axis.defaultProps = {
-    displacement: 0
-};

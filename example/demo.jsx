@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import ReactDom from 'react-dom';
-import {Chart, Pie, Donut, BarGraph} from 'diffract';
+import {util, Chart, BarChart, Pie, Axis} from 'diffract';
 
 const colors = ['#E91E63', '#2196F3', '#FF9800', '#4CAF50', '#673AB7'];
 const width = 320;
@@ -21,7 +21,7 @@ class App extends Component {
     }
 
     componentDidMount() {
-        this._updater = setInterval(this.updateData.bind(this), 5000);
+        //this._updater = setInterval(this.updateData.bind(this), 5000);
     }
 
     componentWillUnmount() {
@@ -54,12 +54,6 @@ class App extends Component {
             </Chart>
         );
     }
-    getDonut() {
-        return (
-            <Donut data={this.state.values} title="Hello" subtitle="using react"
-                segmentColor={this.getColors} radius={Math.min(width, height) / 2}/>
-        );
-    }
 
     getMultiColumnGraph() {
         return null;
@@ -82,19 +76,32 @@ class App extends Component {
         }
     }
 
-    getBarGraph() {
+    getBarChart() {
         return (
-            <BarGraph values={this.state.values} barColor={this.getColors}
-                labels={this.state.labels} leftMargin={40}
-                width={width} height={height} />
+            <Chart width={width} height={height} data={this.state.values}
+                margin={{
+                    left: 50,
+                    bottom: 20,
+                    top: 0,
+                    right: 0
+                }}>
+                <BarChart xScale={util.scale.ordinal} yScale={util.scale.linear}
+                    style={(d, i) => ({fill: this.getColors(i)})}>
+                    <Axis orientation="bottom" tickFormat={(d, i) => this.state.labels[i]}/>
+                    <Axis orientation="left"
+                        tickFormat={d => {
+                            console.log(d);
+                            return d;
+                        }}/>
+                </BarChart>
+            </Chart>
         );
     }
 
-
     render() {
 
-        const donut = this.getDonut();
-        const barGraph = this.getBarGraph();
+        const donut = this.getPieChart();
+        const barGraph = this.getBarChart();
         const padding = {padding: '50px'};
 
         return (

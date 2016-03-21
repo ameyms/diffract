@@ -246,7 +246,7 @@
     "babel/object-shorthand": 1,
     "babel/arrow-parens": 0,
 
-    "react/display-name": 1,
+    "react/display-name": 2,
     "react/forbid-prop-types": 0,
     "react/jsx-boolean-value": 1,
     "react/jsx-closing-bracket-location": [
