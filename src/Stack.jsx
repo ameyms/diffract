@@ -28,19 +28,13 @@ export default class Stack extends Component {
         }),
         xScale: PropTypes.func.isRequired,
         yScale: PropTypes.func.isRequired,
-        dataTransform: PropTypes.func,
-        stackSize: PropTypes.number,
-        groupWidth: PropTypes.number
+        dataTransform: PropTypes.func
     }
 
     getChildContext() {
 
-        const {data} = this.context;
-
         return {
             ...this.context,
-            stackSize: data[0].length,
-            groupWidth: 1,
             dataTransform: this.dataTransform
         };
     }

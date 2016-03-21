@@ -26,7 +26,6 @@ export default class BarChart extends Component {
         xScale: PropTypes.func.isRequired,
         yScale: PropTypes.func.isRequired,
         dataTransform: PropTypes.func,
-        stackSize: PropTypes.number,
         groupWidth: PropTypes.number
     }
 
@@ -63,8 +62,7 @@ export default class BarChart extends Component {
                 z: 0,
                 index: i
             })),
-            groupWidth = 1,
-            stackSize = 1
+            groupWidth = 1
 
         } = this.context;
 
@@ -125,10 +123,6 @@ export default class BarChart extends Component {
                                         width: spring(config.style.width)
                                     }}>
                                     {interStyle => {
-                                        console.log('stackSize=' + stackSize +
-                                            ' ' + (stackSize === 1 ? config.data.index :
-                                            config.data.index % stackSize) + ' @ ' +
-                                            config.style.x);
 
                                         return (
                                             <rect className="bar" width={interStyle.width}

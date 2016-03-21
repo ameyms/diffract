@@ -31,8 +31,7 @@ export default class Group extends Component {
         xScale: PropTypes.func.isRequired,
         yScale: PropTypes.func.isRequired,
         dataTransform: PropTypes.func,
-        groupWidth: PropTypes.number,
-        stackSize: PropTypes.number
+        groupWidth: PropTypes.number
     }
 
     getChildContext() {
@@ -42,7 +41,6 @@ export default class Group extends Component {
         return {
             ...this.context,
             groupWidth: data[0].length,
-            stackSize: 1,
             dataTransform: this.dataTransform
         };
     }
