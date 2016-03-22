@@ -6,10 +6,6 @@ export default class Chart extends Component {
     static displayName = 'Chart'
 
     static childContextTypes = {
-        data: PropTypes.oneOfType([
-            PropTypes.arrayOf(PropTypes.number),
-            PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number))
-        ]),
         height: PropTypes.number,
         width: PropTypes.number,
         margin: PropTypes.shape({
@@ -17,16 +13,10 @@ export default class Chart extends Component {
             bottom: PropTypes.number,
             left: PropTypes.number,
             right: PropTypes.number
-        }),
-        xScale: PropTypes.func,
-        yScale: PropTypes.func
+        })
     };
 
     static propTypes = {
-        data: PropTypes.oneOfType([
-            PropTypes.arrayOf(PropTypes.number),
-            PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number))
-        ]),
         height: PropTypes.number,
         width: PropTypes.number,
         margin: PropTypes.shape({
@@ -34,10 +24,7 @@ export default class Chart extends Component {
             bottom: PropTypes.number,
             left: PropTypes.number,
             right: PropTypes.number
-        }),
-        xScale: PropTypes.func,
-        yScale: PropTypes.func
-
+        })
     };
 
     static defaultProps = {
@@ -53,7 +40,7 @@ export default class Chart extends Component {
 
 
     getChildContext() {
-        const {data, width, height, xScale, yScale} = this.props;
+        const {width, height} = this.props;
         let {margin} = this.props;
 
         margin = {
@@ -64,7 +51,7 @@ export default class Chart extends Component {
             ...margin
         };
 
-        return {data, width, height, margin, xScale, yScale};
+        return {width, height, margin};
     }
     render(): () => any {
 

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import ReactDom from 'react-dom';
-import {util, Chart, BarChart, Pie, Axis, Stack, Group} from 'diffract';
+import {util, Chart, DataSeries, BarChart, Pie, Axis, Stack, Group} from 'diffract';
 
 const colors = ['#E91E63', '#2196F3', '#FF9800', '#4CAF50', '#673AB7'];
 const width = 640;
@@ -51,18 +51,20 @@ class App extends Component {
 
     getPieChart() {
         return (
-            <Chart width={width} height={height} data={this.state.values}>
-                <Pie innerRadius={75} outerRadius={110}
-                    style={(d, i) => ({fill: this.getColors(i)})}>
-                    <text className="donut-title" textAnchor="middle"
-                        x={0} y={0} fontSize={18}>
-                        {'Hello'}
-                    </text>
-                    <text className="donut-subtitle" textAnchor="middle"
-                        x={0} y={18} fontSize={10}>
-                        {'diffract'}
-                    </text>
-                </Pie>
+            <Chart width={width} height={height}>
+                <DataSeries data={this.state.values}>
+                    <Pie innerRadius={75} outerRadius={110}
+                        style={(d, i) => ({fill: this.getColors(i)})}>
+                        <text className="donut-title" textAnchor="middle"
+                            x={0} y={0} fontSize={18}>
+                            {'Hello'}
+                        </text>
+                        <text className="donut-subtitle" textAnchor="middle"
+                            x={0} y={18} fontSize={10}>
+                            {'diffract'}
+                        </text>
+                    </Pie>
+                </DataSeries>
             </Chart>
         );
     }
@@ -97,42 +99,46 @@ class App extends Component {
 
     getBarChart() {
         return (
-            <Chart width={width} height={height} data={this.state.values}
-                xScale={util.scale.ordinal} yScale={util.scale.linear}
+            <Chart width={width} height={height}
                 margin={{
                     left: 50,
                     bottom: 20,
                     top: 0,
                     right: 0
                 }}>
-                <BarChart style={(d, i) => ({fill: this.getColors(i)})}/>
-                <Axis orientation="bottom" tickFormat={(d, i) => this.state.labels[i]}/>
-                <Axis orientation="left"
-                    tickFormat={d => {
-                        return d;
-                    }}/>
-            </Chart>
-        );
-    }
-
-    getStackedBarChart() {
-        return (
-            <Chart width={width} height={height} data={this.state.multiValues}
-                xScale={util.scale.ordinal} yScale={util.scale.linear}
-                margin={{
-                    left: 50,
-                    bottom: 20,
-                    top: 0,
-                    right: 0
-                }}>
-                <Stack>
+                <DataSeries data={this.state.values}
+                    xScale={util.scale.ordinal} yScale={util.scale.linear}>
                     <BarChart style={(d, i) => ({fill: this.getColors(i)})}/>
                     <Axis orientation="bottom" tickFormat={(d, i) => this.state.labels[i]}/>
                     <Axis orientation="left"
                         tickFormat={d => {
                             return d;
                         }}/>
-                </Stack>
+                </DataSeries>
+            </Chart>
+        );
+    }
+
+    getStackedBarChart() {
+        return (
+            <Chart width={width} height={height}
+                margin={{
+                    left: 50,
+                    bottom: 20,
+                    top: 0,
+                    right: 0
+                }}>
+                <DataSeries data={this.state.multiValues}
+                    xScale={util.scale.ordinal} yScale={util.scale.linear}>
+                    <Stack>
+                        <BarChart style={(d, i) => ({fill: this.getColors(i)})}/>
+                        <Axis orientation="bottom" tickFormat={(d, i) => this.state.labels[i]}/>
+                        <Axis orientation="left"
+                            tickFormat={d => {
+                                return d;
+                            }}/>
+                    </Stack>
+                </DataSeries>
             </Chart>
         );
     }
@@ -147,14 +153,17 @@ class App extends Component {
                     top: 0,
                     right: 0
                 }}>
-                <Group>
-                    <BarChart style={(d, i) => ({fill: this.getColors(i)})}/>
-                    <Axis orientation="bottom" tickFormat={(d, i) => this.state.labels[i]}/>
-                    <Axis orientation="left"
-                        tickFormat={d => {
-                            return d;
-                        }}/>
-                </Group>
+                <DataSeries data={this.state.multiValues}
+                    xScale={util.scale.ordinal} yScale={util.scale.linear}>
+                    <Group>
+                        <BarChart style={(d, i) => ({fill: this.getColors(i)})}/>
+                        <Axis orientation="bottom" tickFormat={(d, i) => this.state.labels[i]}/>
+                        <Axis orientation="left"
+                            tickFormat={d => {
+                                return d;
+                            }}/>
+                    </Group>
+                </DataSeries>
             </Chart>
         );
     }
