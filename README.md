@@ -22,27 +22,33 @@ After installing diffract via NPM, you may use the components in your code as fo
 ```js
 /** DeathStar.jsx */
 
-var React = require('react'),
-  diffract = require('diffract'),
-  Donut = diffract.Donut,
-  myarr, colorFn;
-
-/* Define myarr and colorFn here */
+import React from 'react';
+import {Chart, DataSeries, Pie} from 'diffract';
 
 // ...And use it in your code
-var DeathStar = React.createClass({
+class DeathStar extends Component {
 
   render: function() {
     return (
-      <Donut title="42" subtitle="answer to everything"
-       values={myarr} segmentColor={colorFn} />
+        <Chart width={width} height={height}>
+            <DataSeries data={this.state.values}>
+                <Pie innerRadius={75} outerRadius={110}
+                    style={(d, i) => ({fill: this.getColors(i)})}>
+                    <text className="donut-title" textAnchor="middle"
+                        x={0} y={0} fontSize={18}>
+                        {'Hello'}
+                    </text>
+                    <text className="donut-subtitle" textAnchor="middle"
+                        x={0} y={18} fontSize={10}>
+                        {'diffract'}
+                    </text>
+                </Pie>
+            </DataSeries>
+        </Chart>
     );
   }
 
-});
-
-module.exports = DeathStar;
-
+}
 
 ```
 

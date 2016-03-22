@@ -5,7 +5,7 @@
     "stage-1"
   ],
   "plugins": [
-      "transform-remove-console"
+
   ],
   "ignore": [
     "build"

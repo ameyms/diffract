@@ -1,8 +1,19 @@
-import Donut from './Donut';
-import BarGraph from './BarGraph';
-
+import Chart from './Chart';
+import DataSeries from './DataSeries';
+import Pie from './Pie';
+import BarChart from './BarChart';
+import Stack from './Stack';
+import Group from './Group';
+import Axis from './Axis';
+import util from './util';
 
 module.exports = {
-    Donut,
-    BarGraph
+    Chart,
+    DataSeries,
+    Pie,
+    BarChart,
+    Stack,
+    Group,
+    Axis,
+    util
 };

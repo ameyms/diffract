@@ -1,11 +1,17 @@
 import React, {Component} from 'react';
 import ReactDom from 'react-dom';
-import {Donut, BarGraph} from 'diffract';
+import {util, Chart, DataSeries, BarChart, Pie, Axis, Stack, Group} from 'diffract';
 
 const colors = ['#E91E63', '#2196F3', '#FF9800', '#4CAF50', '#673AB7'];
-const width = 320;
+const width = 640;
 const height = 240;
 let cnt = 1;
+
+const getRandomValuesArray = () => ([
+    Math.random() * 10000, Math.random() * 10000,
+    Math.random() * 10000, Math.random() * 10000,
+    Math.random() * 10000
+]);
 
 class App extends Component {
 
@@ -15,6 +21,12 @@ class App extends Component {
             values: [Math.random() * 10000, Math.random() * 10000,
                 Math.random() * 10000, Math.random() * 10000,
                 Math.random() * 10000],
+
+            multiValues: [
+                getRandomValuesArray(), getRandomValuesArray(),
+                getRandomValuesArray(), getRandomValuesArray(),
+                getRandomValuesArray()
+            ],
 
             labels: ['Elves', 'Dwarves', 'Hobbits', 'Men', 'Wizards']
         };
@@ -37,47 +49,131 @@ class App extends Component {
 
     }
 
-    getDonut() {
+    getPieChart() {
         return (
-            <Donut values={this.state.values} title="Hello" subtitle="using react"
-                segmentColor={this.getColors} width={width} height={height} />
+            <Chart width={width} height={height}>
+                <DataSeries data={this.state.values}>
+                    <Pie innerRadius={75} outerRadius={110}
+                        style={(d, i) => ({fill: this.getColors(i)})}>
+                        <text className="donut-title" textAnchor="middle"
+                            x={0} y={0} fontSize={18}>
+                            {'Hello'}
+                        </text>
+                        <text className="donut-subtitle" textAnchor="middle"
+                            x={0} y={18} fontSize={10}>
+                            {'diffract'}
+                        </text>
+                    </Pie>
+                </DataSeries>
+            </Chart>
         );
-    }
-
-    getMultiColumnGraph() {
-        return null;
-
     }
 
     updateData() {
 
         if (cnt++ % 3) {
-            this.setState({values: [Math.random() * 10000, Math.random() * 10000,
-                Math.random() * 10000, Math.random() * 10000,
-                Math.random() * 10000],
+            this.setState({
 
+                values: getRandomValuesArray(),
+
+                multiValues: [
+                    getRandomValuesArray(), getRandomValuesArray(),
+                    getRandomValuesArray(), getRandomValuesArray(),
+                    getRandomValuesArray()
+                ],
                 labels: ['Elves', 'Dwarves', 'Hobbits', 'Men', 'Wizards']});
         } else {
-            this.setState({values: [Math.random() * 10000, Math.random() * 10000,
-                Math.random() * 10000, Math.random() * 10000],
+            this.setState({
+                values: [
+                    Math.random() * 10000, Math.random() * 10000,
+                    Math.random() * 10000, Math.random() * 10000
+                ],
+                multiValues: [
+                    getRandomValuesArray(), getRandomValuesArray(),
+                    getRandomValuesArray(), getRandomValuesArray()
+                ],
 
                 labels: ['Elves', 'Dwarves', 'Hobbits', 'Men']});
         }
     }
 
-    getBarGraph() {
+    getBarChart() {
         return (
-            <BarGraph values={this.state.values} barColor={this.getColors}
-                labels={this.state.labels} leftMargin={40}
-                width={width} height={height} />
+            <Chart width={width} height={height}
+                margin={{
+                    left: 50,
+                    bottom: 20,
+                    top: 0,
+                    right: 0
+                }}>
+                <DataSeries data={this.state.values}
+                    xScale={util.scale.ordinal} yScale={util.scale.linear}>
+                    <BarChart style={(d, i) => ({fill: this.getColors(i)})}/>
+                    <Axis orientation="bottom" tickFormat={(d, i) => this.state.labels[i]}/>
+                    <Axis orientation="left"
+                        tickFormat={d => {
+                            return d;
+                        }}/>
+                </DataSeries>
+            </Chart>
         );
     }
 
+    getStackedBarChart() {
+        return (
+            <Chart width={width} height={height}
+                margin={{
+                    left: 50,
+                    bottom: 20,
+                    top: 0,
+                    right: 0
+                }}>
+                <DataSeries data={this.state.multiValues}
+                    xScale={util.scale.ordinal} yScale={util.scale.linear}>
+                    <Stack>
+                        <BarChart style={(d, i) => ({fill: this.getColors(i)})}/>
+                        <Axis orientation="bottom" tickFormat={(d, i) => this.state.labels[i]}/>
+                        <Axis orientation="left"
+                            tickFormat={d => {
+                                return d;
+                            }}/>
+                    </Stack>
+                </DataSeries>
+            </Chart>
+        );
+    }
+
+    getGroupedBarChart() {
+        return (
+            <Chart width={width} height={height} data={this.state.multiValues}
+                xScale={util.scale.ordinal} yScale={util.scale.linear}
+                margin={{
+                    left: 50,
+                    bottom: 20,
+                    top: 0,
+                    right: 0
+                }}>
+                <DataSeries data={this.state.multiValues}
+                    xScale={util.scale.ordinal} yScale={util.scale.linear}>
+                    <Group>
+                        <BarChart style={(d, i) => ({fill: this.getColors(i)})}/>
+                        <Axis orientation="bottom" tickFormat={(d, i) => this.state.labels[i]}/>
+                        <Axis orientation="left"
+                            tickFormat={d => {
+                                return d;
+                            }}/>
+                    </Group>
+                </DataSeries>
+            </Chart>
+        );
+    }
 
     render() {
 
-        const donut = this.getDonut();
-        const barGraph = this.getBarGraph();
+        const donut = this.getPieChart();
+        const barGraph = this.getBarChart();
+        const stackedBarGraph = this.getStackedBarChart();
+        const groupedBarGraph = this.getGroupedBarChart();
         const padding = {padding: '50px'};
 
         return (
@@ -90,6 +186,15 @@ class App extends Component {
                     <h2>{'Bar Graph'}</h2>
                     {barGraph}
                 </div>
+                <div width="640" height="480">
+                    <h2>{'Stacked Chart'}</h2>
+                    {stackedBarGraph}
+                </div>
+                <div width="640" height="480">
+                    <h2>{'Grouped Chart'}</h2>
+                    {groupedBarGraph}
+                </div>
+
             </div>
         );
     }
