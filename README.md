@@ -52,6 +52,9 @@ class DeathStar extends Component {
 
 ```
 
+## More Examples
+See [examples](https://github.com/ameyms/diffract/blob/master/example/demo.jsx) for more
+examples including Donuts, BarChart, stacked bar chart, grouped bar chart etc.
 ## Demo
 ### Donut
 ![Donut](https://raw.github.com/ameyms/diffract/master/etc/donut.gif)
