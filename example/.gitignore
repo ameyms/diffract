@@ -1,6 +1,5 @@
 # Demo JS files
-demo.js
-demo.compiled.js
+demo.bundle.js
 
 node_modules
 build
