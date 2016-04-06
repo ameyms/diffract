@@ -1,6 +1,5 @@
 import Chart from './Chart';
 import DataSeries from './DataSeries';
-import CartesianDataSeries from './CartesianDataSeries';
 import Pie from './Pie';
 import BarChart from './BarChart';
 import Stack from './Stack';
@@ -13,7 +12,6 @@ module.exports = {
     Chart,
     DataSeries,
     Pie,
-    CartesianDataSeries,
     BarChart,
     Stack,
     Group,

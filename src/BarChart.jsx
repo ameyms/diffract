@@ -85,6 +85,7 @@ export default class BarChart extends Component {
             style: {
                 width: xScaleFn.rangeBand() / groupWidth,
                 height: yScaleFn(d.y0) - yScaleFn(d.y0 + d.y),
+                y0: yScaleFn(d.y0),
                 y: yScaleFn(d.y0 + d.y),
                 x: xScaleFn(d.x) + xScaleFn.rangeBand() / groupWidth * d.dx
 
@@ -97,6 +98,7 @@ export default class BarChart extends Component {
             style: {
                 width: xScaleFn.rangeBand() / groupWidth,
                 height: 0,
+                y0: yScaleFn(d.y0),
                 y: yScaleFn(d.y0),
                 x: xScaleFn(d.x) + xScaleFn.rangeBand() / groupWidth * d.dx
             }

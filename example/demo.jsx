@@ -30,7 +30,8 @@ class App extends Component {
                 getRandomValuesArray()
             ],
 
-            labels: ['Elves', 'Dwarves', 'Hobbitses', 'Men', 'Wizards']
+            labels: ['Elves', 'Dwarves',
+                        'Hobbitses', 'Men', 'Wizards']
         };
     }
 
@@ -83,7 +84,8 @@ class App extends Component {
                     getRandomValuesArray(), getRandomValuesArray(),
                     getRandomValuesArray()
                 ],
-                labels: ['Elves', 'Dwarves', 'Hobbitses', 'Men', 'Wizards']});
+                labels: ['Elves', 'Dwarves',
+                            'Hobbitses', 'Men', 'Some really long label']});
         } else {
             this.setState({
                 values: [
@@ -95,7 +97,8 @@ class App extends Component {
                     getRandomValuesArray(), getRandomValuesArray()
                 ],
 
-                labels: ['Elves', 'Dwarves', 'Hobbitses', 'Men']});
+                labels: ['Elves', 'Dwarves',
+                            'Hobbitses', 'Men']});
         }
     }
 
@@ -111,7 +114,7 @@ class App extends Component {
                 <DataSeries data={this.state.values}
                     xScale={util.scale.ordinal} yScale={util.scale.linear}>
                     <BarChart style={(d, i) => ({fill: this.getColors(i)})}/>
-                    <XAxis tickFormat={(d, i) => this.state.labels[i]}/>
+                    <XAxis tickFormat={(d, i) => this.state.labels[i]} debug/>
                     <YAxis
                         tickFormat={d => {
                             return d;

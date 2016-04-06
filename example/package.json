@@ -4,7 +4,6 @@
   "description": "Showcase of diffract d3 widgets",
   "dependencies": {
     "d3": "^3.5.6",
-    "diffract": "file:///Users/amey/Code/Github/diffract/diffract-0.3.0.tgz",
     "react": "^0.14.7",
     "react-addons-transition-group": "^0.14.7",
     "react-dom": "^0.14.1"

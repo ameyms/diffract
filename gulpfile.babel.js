@@ -44,7 +44,7 @@ gulp.task('npmpack', ['build'], () => {
 gulp.task('demoInstall', ['npmpack'], () => {
 
     return new Promise((resolve, reject) => {
-        exec(`npm install --save ../${pkg.name}-${pkg.version}.tgz`, {
+        exec(`npm install ../${pkg.name}-${pkg.version}.tgz`, {
             cwd: path.join(__dirname, 'example')
         }, (err, stdout) => {
             if (err) {
