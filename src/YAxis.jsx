@@ -4,12 +4,11 @@ import {Axis as Styles} from './styles';
 import {TRANSITION_DURATION} from './constants';
 import d3 from 'd3';
 
-export default class Axis extends Component {
+export default class YAxis extends Component {
 
     static displayName = 'Axis'
 
     static contextTypes = {
-        xScale: PropTypes.func.isRequired,
         yScale: PropTypes.func.isRequired,
         dataTransform: PropTypes.func,
         data: PropTypes.oneOfType([
@@ -48,9 +47,9 @@ export default class Axis extends Component {
     drawAxis() {
 
         const el = d3.select(ReactDom.findDOMNode(this));
-        const {orientation, tickFormat} = this.props;
+        const {orientation = 'left', tickFormat} = this.props;
         const {
-            xScale, yScale, width, height, margin, data,
+            yScale, width, height, margin, data,
             dataTransform = arr => arr.map((d, i) => ({
                 x: i,
                 y0: 0,
@@ -64,27 +63,17 @@ export default class Axis extends Component {
         const txData = dataTransform(data);
 
         let displacement;
-        let scale = xScale;
-
-        if (orientation === 'left' || orientation === 'right') {
-            scale = yScale().
-                        rangeRound([hMax, 0]).
-                        domain([0, d3.max(txData, d => d.y0 + d.y)]);
-        } else {
-            scale = xScale().
-                    domain(d3.range(data.length)).
-                    rangeRoundBands([0, wMax], 0.2);
-        }
+        const scale = yScale().
+                    rangeRound([hMax, 0]).
+                    domain([0, d3.max(txData, d => d.y0 + d.y)]);
 
         switch (orientation) {
-            case 'bottom':
-                displacement = `translate(0, ${hMax})`;
-                break;
 
             case 'right':
                 displacement = `translate(${wMax}, 0)`;
                 break;
 
+            case 'left':
             default:
                 displacement = 'translate(0, 0)';
                 break;

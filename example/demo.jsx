@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import ReactDom from 'react-dom';
-import {util, Chart, DataSeries, BarChart, Pie, Axis, Stack, Group} from 'diffract';
+import {
+    util, Chart, DataSeries, BarChart, Pie, XAxis, YAxis, Stack, Group
+} from 'diffract';
 
 const colors = ['#E91E63', '#2196F3', '#FF9800', '#4CAF50', '#673AB7'];
 const width = 640;
@@ -28,7 +30,7 @@ class App extends Component {
                 getRandomValuesArray()
             ],
 
-            labels: ['Elves', 'Dwarves', 'Hobbits', 'Men', 'Wizards']
+            labels: ['Elves', 'Dwarves', 'Hobbitses', 'Men', 'Wizards']
         };
     }
 
@@ -81,7 +83,7 @@ class App extends Component {
                     getRandomValuesArray(), getRandomValuesArray(),
                     getRandomValuesArray()
                 ],
-                labels: ['Elves', 'Dwarves', 'Hobbits', 'Men', 'Wizards']});
+                labels: ['Elves', 'Dwarves', 'Hobbitses', 'Men', 'Wizards']});
         } else {
             this.setState({
                 values: [
@@ -93,7 +95,7 @@ class App extends Component {
                     getRandomValuesArray(), getRandomValuesArray()
                 ],
 
-                labels: ['Elves', 'Dwarves', 'Hobbits', 'Men']});
+                labels: ['Elves', 'Dwarves', 'Hobbitses', 'Men']});
         }
     }
 
@@ -109,8 +111,8 @@ class App extends Component {
                 <DataSeries data={this.state.values}
                     xScale={util.scale.ordinal} yScale={util.scale.linear}>
                     <BarChart style={(d, i) => ({fill: this.getColors(i)})}/>
-                    <Axis orientation="bottom" tickFormat={(d, i) => this.state.labels[i]}/>
-                    <Axis orientation="left"
+                    <XAxis tickFormat={(d, i) => this.state.labels[i]}/>
+                    <YAxis
                         tickFormat={d => {
                             return d;
                         }}/>
@@ -132,8 +134,8 @@ class App extends Component {
                     xScale={util.scale.ordinal} yScale={util.scale.linear}>
                     <Stack>
                         <BarChart style={(d, i) => ({fill: this.getColors(i)})}/>
-                        <Axis orientation="bottom" tickFormat={(d, i) => this.state.labels[i]}/>
-                        <Axis orientation="left"
+                        <XAxis tickFormat={(d, i) => this.state.labels[i]}/>
+                        <YAxis
                             tickFormat={d => {
                                 return d;
                             }}/>
@@ -157,8 +159,8 @@ class App extends Component {
                     xScale={util.scale.ordinal} yScale={util.scale.linear}>
                     <Group>
                         <BarChart style={(d, i) => ({fill: this.getColors(i)})}/>
-                        <Axis orientation="bottom" tickFormat={(d, i) => this.state.labels[i]}/>
-                        <Axis orientation="left"
+                        <XAxis tickFormat={(d, i) => this.state.labels[i]}/>
+                        <YAxis
                             tickFormat={d => {
                                 return d;
                             }}/>
@@ -178,6 +180,7 @@ class App extends Component {
 
         return (
             <div style={padding}>
+                <h1>{'Diffract demos'}</h1>
                 <div width="640" height="480">
                     <h2>{'Donut'}</h2>
                     {donut}
