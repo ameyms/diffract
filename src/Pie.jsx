@@ -9,7 +9,8 @@ export default class Pie extends Component {
     static propTypes = {
         innerRadius: PropTypes.number,
         outerRadius: PropTypes.number,
-        style: PropTypes.func
+        style: PropTypes.func,
+        onClick: PropTypes.func
     }
 
     static contextTypes = {
@@ -25,7 +26,8 @@ export default class Pie extends Component {
     }
 
     static defaultProps = {
-        style: () => ({})
+        style: () => ({}),
+        onClick: () => {}
     }
 
     willLeave({style}) {
@@ -45,6 +47,7 @@ export default class Pie extends Component {
     render() {
         const {width, height, data} = this.context;
         const pieFn = d3.layout.pie().sort(null);
+        const {style, onClick} = this.props;
 
         const arcFn = d3.svg.arc().
                     outerRadius(this.props.outerRadius).
@@ -85,10 +88,17 @@ export default class Pie extends Component {
                                         }}>
                                         {interStyle =>
                                             <path d={arcFn(interStyle)}
-                                                style={this.props.style(
+                                                style={style(
                                                     config.data.value,
                                                     config.data.index
-                                                )}/>
+                                                )}
+                                                onClick={e => {
+                                                    onClick(
+                                                        e, config.data.value,
+                                                        config.data.index
+                                                    );
+                                                }
+                                            }/>
                                         }
                                     </Motion>
                             ))}

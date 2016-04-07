@@ -67,6 +67,7 @@ class App extends Component {
             <Chart width={width} height={height}>
                 <DataSeries data={this.state.values}>
                     <Pie innerRadius={75} outerRadius={110}
+                        onClick={(e, v, i) => console.log(this.state.labels[i] + ' clicked')}
                         style={(d, i) => ({fill: this.getColors(i)})}>
                         <text className="donut-title" textAnchor="middle"
                             x={0} y={0} fontSize={18}>
@@ -118,8 +119,9 @@ class App extends Component {
                 margin={margins}>
                 <DataSeries data={this.state.values}
                     xScale={xScale} yScale={yScale}>
-                    <BarChart style={(d, i) => ({fill: this.getColors(i)})}/>
-                    <XAxis textRotation={45} tickFormat={(d, i) => this.state.labels[i]} debug/>
+                    <BarChart onClick={(e, v, i) => console.log(this.state.labels[i] + ' clicked')}
+                        style={(d, i) => ({fill: this.getColors(i)})}/>
+                    <XAxis textRotation={30} tickFormat={(d, i) => this.state.labels[i]} debug/>
                     <YAxis
                         tickFormat={d => {
                             return d;

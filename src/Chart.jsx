@@ -68,11 +68,22 @@ export default class Chart extends Component {
 
         const insetString = `translate(${margin.left}, ${margin.top})`;
         return (
-            <svg className="dffract-svg" width={width} height={height}>
-                <g className="conatiner" transform={insetString}>
-                    {this.props.children}
-                </g>
-            </svg>
+            <div className="diffract-chart"
+                style={{
+                    padding: 0,
+                    margin: 0,
+                    width, height
+                }}>
+                <svg className="dffract-svg" width={width} height={height}>
+                    <g className="conatiner" transform={insetString}>
+                        {this.props.children}
+                    </g>
+                </svg>
+
+                <div style={{
+                    display: 'none'
+                }}/>
+            </div>
         );
     }
 }

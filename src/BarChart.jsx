@@ -7,7 +7,8 @@ export default class BarChart extends Component {
     static displayName = 'BarChart'
 
     static propTypes = {
-        style: PropTypes.func
+        style: PropTypes.func,
+        onClick: PropTypes.func
     }
 
     static contextTypes = {
@@ -30,7 +31,8 @@ export default class BarChart extends Component {
     }
 
     static defaultProps = {
-        style: () => ({})
+        style: () => ({}),
+        onClick: () => {}
     }
 
     willLeave({style}) {
@@ -65,6 +67,8 @@ export default class BarChart extends Component {
             groupWidth = 1
 
         } = this.context;
+
+        const {style, onClick} = this.props;
 
         const txData = dataTransform(data);
 
@@ -125,9 +129,16 @@ export default class BarChart extends Component {
                                         return (
                                             <rect className="bar" width={interStyle.width}
                                                 height={interStyle.height}
+                                                onClick={e => {
+                                                    onClick(
+                                                        e,
+                                                        config.data.y,
+                                                        config.data.index
+                                                    );
+                                                }}
                                                 x={interStyle.x} y={interStyle.y}
-                                                style={this.props.style(
-                                                    config.data.value,
+                                                style={style(
+                                                    config.data.y,
                                                     config.data.index
                                                 )}/>
                                         );
