@@ -38,6 +38,7 @@ export default class XAxis extends Component {
         ticks: PropTypes.arrayOf(PropTypes.any),
         tickTextStyle: PropTypes.object,
         tickLineStyle: PropTypes.object,
+        textRotation: PropTypes.number,
         debug: PropTypes.bool
     }
 
@@ -51,16 +52,14 @@ export default class XAxis extends Component {
         tickValues: null,
         ticks: [10],
         tickTextStyle: {},
-        tickLineStyle: {}
+        tickLineStyle: {},
+        textRotation: 0
     }
 
-    componentWillReceiveProps() {
-        this.setState({
-            externalRender: true,
-            labelLength: 0
-        });
+    constructor(props) {
+        super(props);
+        this.state = {};
     }
-
 
     willEnter({style}) {
         return {
@@ -78,12 +77,6 @@ export default class XAxis extends Component {
 
     render() {
 
-        let displacement;
-
-        if (!this.state || this.state.externalRender) {
-            this.maxTextLength = 0;
-        }
-
         const {
             orientation,
             outerTickSize,
@@ -94,6 +87,7 @@ export default class XAxis extends Component {
             tickFormat,
             tickTextStyle,
             tickLineStyle,
+            textRotation,
             /*eslint-disable no-unused-vars*/
             debug
             /*eslint-enable unused*/
@@ -105,32 +99,24 @@ export default class XAxis extends Component {
         const wMax = width - margin.left - margin.right;
         const hMax = height - margin.top - margin.bottom;
 
-        const scale = xScale().domain(d3.range(data.length)).
-                                rangeRoundBands([0, wMax], 0.2).copy();
+        const scale = xScale.domain(d3.range(data.length)).copy();
 
         const ticksArr = getTicks(scale, tickValues, ticks);
 
-        switch (orientation) {
-            case 'top':
-                displacement = 'translate(0, 0)';
-                break;
 
-            case 'bottom':
-            default:
-                displacement = `translate(0, ${hMax})`;
-                break;
-        }
+        const displacement = orientation === 'bottom' ?
+                                `translate(0, ${hMax})` : 'translate(0, 0)';
 
         const sign = orientation === 'top' ? -1 : 1;
 
         const range = scaleRange(scale);
         const pathD = `M${range[0]},${sign * outerTickSize}V0H${range[1]}V${sign * outerTickSize}`;
-        const dx = scale.rangeBand() / 2;
 
-        const textRotation = () => (
-            (!this.maxTextLength || this.maxTextLength <= scale.rangeBand()) ? 0 :
-            (180 * Math.acos(scale.rangeBand() / this.maxTextLength) / Math.PI)
-        );
+        let dx = 0;
+        if (scale.rangeBand) {
+            dx = scale.rangeBand() / 2;
+        }
+
 
         const defaultStyles = ticksArr.map((t, i) => ({
             key: i + '',
@@ -140,10 +126,11 @@ export default class XAxis extends Component {
             style: {
                 tx: scale(t) + dx,
                 ty: 0,
-                textRotation: textRotation(),
+                textRotation,
                 opacity: 1
             }
         }));
+
         const motionStyles = ticksArr.map((t, i) => ({
             key: i + '',
             data: {
@@ -152,22 +139,11 @@ export default class XAxis extends Component {
             style: {
                 tx: scale(t) + dx,
                 ty: 0,
-                textRotation: textRotation(),
+                textRotation,
                 opacity: 1
             }
         }));
 
-        if (!this.state || this.state.externalRender) {
-            setTimeout(() => {
-                this.setState({
-                    externalRender: false,
-                    labelLength: this.maxTextLength
-                });
-            }, 0);
-        }
-        if (debug) {
-            console.warn('Rotating text by ' + textRotation() + '°');
-        }
 
         return (
             <g className="axis" transform={displacement}>
@@ -178,7 +154,6 @@ export default class XAxis extends Component {
                         {interStyles.map(config => (
                                 <Motion defaultStyle={{
                                     ...config.style,
-                                    textRotation: textRotation(),
                                     opacity: 1
                                 }}
                                     key={config.key}
@@ -198,10 +173,11 @@ export default class XAxis extends Component {
                                                 style={{
                                                     opacity: interStyle.opacity
                                                 }}>
-                                                <line style={{
-                                                    ...Styles.lines,
-                                                    ...tickLineStyle
-                                                }}/>
+                                                <line y2={sign * innerTickSize}
+                                                    style={{
+                                                        ...Styles.lines,
+                                                        ...tickLineStyle
+                                                    }}/>
                                                 <text
                                                     x={0}
                                                     y={sign * tickSpacing}
@@ -214,14 +190,6 @@ export default class XAxis extends Component {
                                                             'start' : 'middle',
                                                         ...Styles.text,
                                                         ...tickTextStyle
-                                                    }}
-                                                    ref={textEl => {
-                                                        if (textEl) {
-                                                            this.maxTextLength = Math.max(
-                                                                this.maxTextLength,
-                                                                textEl.getComputedTextLength()
-                                                            );
-                                                        }
                                                     }}>
                                                     {config.data.text}
                                                 </text>

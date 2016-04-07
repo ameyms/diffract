@@ -53,7 +53,7 @@ export default class BarChart extends Component {
     render() {
 
         const {
-            width, height, margin, xScale, yScale, data,
+            xScale, yScale, data,
             dataTransform = arr => arr.map((d, i) => ({
                 x: i,
                 dx: 0,
@@ -66,17 +66,13 @@ export default class BarChart extends Component {
 
         } = this.context;
 
-        const wMax = width - margin.left - margin.right;
-        const hMax = height - margin.top - margin.bottom;
         const txData = dataTransform(data);
 
-        const xScaleFn = xScale().
-                domain(d3.range(data.length)).
-                rangeRoundBands([0, wMax], 0.2);
+        const xScaleFn = xScale.
+                domain(d3.range(data.length));
 
 
-        const yScaleFn = yScale().
-                rangeRound([hMax, 0]).
+        const yScaleFn = yScale.
                 domain([0, d3.max(txData, d => d.y0 + d.y)]);
 
         const motionStyles = txData.map(d => ({

@@ -15,6 +15,16 @@ const getRandomValuesArray = () => ([
     Math.random() * 10000
 ]);
 
+const margins = {
+    left: 50,
+    bottom: 20,
+    top: 0,
+    right: 0
+};
+
+const xScale = util.scale.ordinal().rangeRoundBands([0, width - margins.left - margins.right], 0.2);
+const yScale = util.scale.linear().rangeRound([height - margins.top - margins.bottom, 0]);
+
 class App extends Component {
 
     constructor() {
@@ -105,16 +115,11 @@ class App extends Component {
     getBarChart() {
         return (
             <Chart width={width} height={height}
-                margin={{
-                    left: 50,
-                    bottom: 20,
-                    top: 0,
-                    right: 0
-                }}>
+                margin={margins}>
                 <DataSeries data={this.state.values}
-                    xScale={util.scale.ordinal} yScale={util.scale.linear}>
+                    xScale={xScale} yScale={yScale}>
                     <BarChart style={(d, i) => ({fill: this.getColors(i)})}/>
-                    <XAxis tickFormat={(d, i) => this.state.labels[i]} debug/>
+                    <XAxis textRotation={45} tickFormat={(d, i) => this.state.labels[i]} debug/>
                     <YAxis
                         tickFormat={d => {
                             return d;
@@ -127,14 +132,9 @@ class App extends Component {
     getStackedBarChart() {
         return (
             <Chart width={width} height={height}
-                margin={{
-                    left: 50,
-                    bottom: 20,
-                    top: 0,
-                    right: 0
-                }}>
+                margin={margins}>
                 <DataSeries data={this.state.multiValues}
-                    xScale={util.scale.ordinal} yScale={util.scale.linear}>
+                    xScale={xScale} yScale={yScale}>
                     <Stack>
                         <BarChart style={(d, i) => ({fill: this.getColors(i)})}/>
                         <XAxis tickFormat={(d, i) => this.state.labels[i]}/>
@@ -151,15 +151,10 @@ class App extends Component {
     getGroupedBarChart() {
         return (
             <Chart width={width} height={height} data={this.state.multiValues}
-                xScale={util.scale.ordinal} yScale={util.scale.linear}
-                margin={{
-                    left: 50,
-                    bottom: 20,
-                    top: 0,
-                    right: 0
-                }}>
+                xScale={xScale} yScale={yScale}
+                margin={margins}>
                 <DataSeries data={this.state.multiValues}
-                    xScale={util.scale.ordinal} yScale={util.scale.linear}>
+                    xScale={xScale} yScale={yScale}>
                     <Group>
                         <BarChart style={(d, i) => ({fill: this.getColors(i)})}/>
                         <XAxis tickFormat={(d, i) => this.state.labels[i]}/>
