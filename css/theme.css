@@ -2,11 +2,9 @@ body
 {
     background-color: #F0F2FD;
     font-weight: 300;
+    font-family: 'Muli', 'Helvetica Neue', Arial, sans-serif;
 }
-*, body
-{
-  font-family: 'Muli', 'Helvetica Neue', Arial, sans-serif;
-}
+
 h1, h2
 {
   font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
@@ -70,4 +68,8 @@ h4
 .component-showcase
 {
   margin-bottom: 30px;
+}
+.component-showcase:not(:first-child) {
+    padding-top: 20px;
+    border-top: 1px solid #D7D9E4;
 }

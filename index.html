@@ -6,9 +6,8 @@
     <link href='http://fonts.googleapis.com/css?family=Muli:300,400|Montserrat:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="css/bootstrap.min.css" charset="utf-8">
     <link rel="stylesheet" href="css/font-awesome.min.css" media="screen" title="no title" charset="utf-8">
-    <link rel="stylesheet" href="css/theme.css" charset="utf-8">
     <link rel="stylesheet" href="css/prism.css" charset="utf-8">
-    <script src="https://fb.me/JSXTransformer-0.13.2.js"></script>
+    <link rel="stylesheet" href="css/theme.css" charset="utf-8">
 
   </head>
   <body>
@@ -31,9 +30,9 @@
           Github
         </a>
         <a class="btn btn-lg btn-primary"
-          href="https://github.com/ameyms/diffract/releases/download/v0.1.0/diffract-v0.1.0.tgz">
+          href="https://github.com/ameyms/diffract/releases/download/v0.1.0/diffract-v0.3.1.tgz">
           <span class="fa fa-download"></span>
-          Download diffract v0.1.0
+          Download diffract v0.3.1
         </a>
     </div>
     <div class="container">
@@ -74,104 +73,21 @@
             or <a href="http://webpack.github.io/docs/">webpack</a>.
           </p>
           <pre>
-  npm install --save-dev diffract</pre>
+  npm install --save diffract</pre>
         </div>
       </div>
       <div class="row">
         <h2>Samples</h2>
       </div>
-      <div class="row component-showcase">
-        <div class="row">
-          <div class="col-xs-12">
-            <h3>Donut</h3>
-          </div>
-        </div>
-        <div class="col-xs-8">
-
-<pre><code class="language-jsx">
-  var Donut = require('diffract').Donut;
-  var React = require('react');
-  var colors = [ '#E91E63', '#2196F3', '#FF9800', '#4CAF50', '#673AB7' ],
-      width = 320, height = 240,
-      cnt = 0;
-
-  var DonutDemo = React.createClass({
-
-      // ...
-
-      render: function () {
-          return  (
-              &lt;Donut values={this.state.values}
-                    title="Hello" subtitle="using react"
-                    segmentColor={this.getColors} width={width} height={height} /&gt;
-          );
-      }
-  });
-
-
-  React.render(
-      &lt;DonutDemo/&gt;,
-      document.getElementById( 'donutDemo' )
-  );
-
-</code></pre>
-
-        </div>
-        <div class="col-xs-4">
-            <div id="donutDemo"></div>
-        </div>
-      </div>
-      <div class="row component-showcase">
-        <div class="row">
-          <div class="col-xs-12">
-            <h3>Bar Graph</h3>
-          </div>
-        </div>
-        <div class="col-xs-8">
-
-<pre><code class="language-jsx">
-  var BarGraph = require('diffract').BarGraph;
-  var React = require('react');
-  var colors = [ '#E91E63', '#2196F3', '#FF9800', '#4CAF50', '#673AB7' ],
-      width = 320, height = 240,
-      cnt = 0;
-
-  var BarGraphDemo = React.createClass({
-
-      // ...
-
-
-      render: function () {
-          return  (
-              &lt;BarGraph values={this.state.values} barColor={this.getColors}
-                  labels={this.state.labels} leftMargin={40}
-                  width={width} height={height} /&gt;
-          );
-      }
-  });
-
-
-  React.render(
-      &lt;BarGraphDemo/&gt;,
-      document.getElementById( 'barGraphDemo' )
-  );
-
-</code></pre>
-
-        </div>
-        <div class="col-xs-4">
-            <div id="barGraphDemo"></div>
-        </div>
+      <div class="row" id="demoRoot">
       </div>
     </div>
 
 
     <div class="page-footer">
-      Made with <span class="fa fa-heart"></span> using React and Bootstrap.
+      Built with <span class="fa fa-heart"></span> using React and ReactMotion.
     </div>
-    <script charset="utf-8" src="js/diffract.compiled.js"></script>
-    <script type="text/jsx" src="js/DonutDemo.jsx"></script>
-    <script type="text/jsx" src="js/BarGraphDemo.jsx"></script>
+    <script charset="utf-8" src="js/demo.bundle.js"></script>
     <script charset="utf-8" src="js/prism.js"></script>
   </body>
 </html>
